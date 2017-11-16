@@ -17,8 +17,10 @@
   },
   "homepage": "https://github.com/fabiomolignoni/SE2#readme",
   "dependencies": {
+    "bcrypt": "^1.0.3",
     "body-parser": "^1.18.2",
     "express": "^4.16.2",
+    "file-system": "^2.2.2",
     "jsonwebtoken": "^8.1.0",
     "mongoose": "^4.13.2",
     "morgan": "^1.9.0"

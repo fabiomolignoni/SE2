@@ -10,7 +10,15 @@ var mongoose    = require('mongoose');
 // =======================
 // configurazione parametri
 // =======================
+var config = require('./config'); // file di configurazione
+var signup = require('./routes/signup.js');
+
 var port = process.env.PORT || 8080;
+
+mongoose.connect(config.database, {
+   useMongoClient: true
+});
+
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(morgan('dev'));
@@ -18,9 +26,7 @@ app.use(morgan('dev'));
 // =======================
 // routes
 // =======================
-app.get('/', function(req, res) {
-    res.send('prova funzionamento');
-});
+app.use('/signup', signup);
 
 // =======================
 // avvio del server
