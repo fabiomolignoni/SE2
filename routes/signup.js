@@ -43,20 +43,11 @@ router.post('/', function (req, res) {
 
       //image = default.png if there isn't an image to upload or if the file is not in a supported format
       if(files.image && files.image.name.match(/.(jpg|jpeg|png|gif)$/i)){
-        var oldpath = files.image.path;
-        var newpath = path.join(__dirname, "../", '/images/profile/' + files.image.name);
-        newpath = newpath.replace(/(\.[\w\d_-]+)$/i, '_'+Date.now()+'$1'); //create an unique name
-        utente.image = newpath;
-        //NOTA gestire file non immagine
-        fs.rename(oldpath, newpath, function (err) {
-          if (err){
-          console.log(err);
-          res.json({success: false, log:"Image error"});
-          }
-        });
+        utente.image.data = fs.readFileSync(files.image.path);
+        utente.image.contentType = 'image/'+files.image.name.split('.').pop();
       }
       else{
-        utente.image = __dirname+"/images/profile/default.png";
+        //inserire immagine default
       }
       //save the user in the DB
       utente.save(function(err){
