@@ -43,11 +43,12 @@ router.post('/', function (req, res) {
 
       //image = default.png if there isn't an image to upload or if the file is not in a supported format
       if(files.image && files.image.name.match(/.(jpg|jpeg|png|gif)$/i)){
-        utente.image.data = fs.readFileSync(files.image.path);
+        utente.image.data = fs.readFileSync(files.image.path).toString('base64');
         utente.image.contentType = 'image/'+files.image.name.split('.').pop();
       }
       else{
-        //inserire immagine default
+        utente.image.data = fs.readFileSync(path.join(__dirname, "../", '/images/default.png')).toString('base64');
+        utente.image.contentType = 'image/png';
       }
       //save the user in the DB
       utente.save(function(err){
