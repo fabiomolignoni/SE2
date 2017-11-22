@@ -13,7 +13,7 @@ const router = express.Router();
 //verify the token
 router.use(function(req, res, next) {
   res.contentType('application/json');
-  var token = req.body.token;
+  var token = req.body.token || req.query.token || req.headers['x-access-token'];
   if (token) { //if there is a token in the body
     jwt.verify(token, config.privatekey, function(err, decoded) {
       if (err){
