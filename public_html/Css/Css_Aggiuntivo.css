@@ -1,0 +1,82 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 8-nov-2017, 14.02.20
+    Author     : Davide Uni
+*/
+
+#bg-primary{
+    background-color: #bfbfbf;
+    margin-right: 5%;
+    margin-left: 5%;
+    
+}
+
+.img_rotonda{
+   -moz-border-radius: 180px;
+    -webkit-border-radius: 180px;
+    border-radius: 180px;
+    
+}
+
+.contenitore_inserzione{
+    background-color: #bfbfbf;
+  
+    height: 90%
+}
+
+#prezzo{
+    color: green;
+    text-align: center;
+}
+
+#sfondo_verde{
+    background-color: green;
+    margin: 5%;
+    align-content: center;
+    
+}
+
+.testo{
+    padding: 1%
+}
+
+.footer_margin{
+    margin-top: 10px;
+  background-position: bottom;
+}
+
+.background-full-site{
+min-height: 800px;
+ height: 100%;
+
+}
+
+body{
+    height: 100%;
+}
+
+#inline{
+    display:inline;
+}
+
+.font_sito_bottoni{
+    color: white;
+    font-family: 'Barlow Semi Condensed', sans-serif;
+}
+
+.font_sito_scritte{
+    color: white;
+    font-family: 'Roboto Slab', serif;
+}
+
+.cartellone{
+    width:400px;
+}
+
+.margine_articoli{
+    margin-top: 10%;
+}
