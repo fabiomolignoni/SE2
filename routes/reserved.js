@@ -6,6 +6,7 @@ const jwt    = require('jsonwebtoken');
 const formidable = require('formidable');
 const updateuser = require('./updateuser.js');
 const deleteuser = require('./deleteuser.js');
+const userdata = require('./userdata.js');
 const config =  require('../config.js');
 const router = express.Router();
 
@@ -56,6 +57,7 @@ router.use(function(req, res, next) {
 // routes
 // =======================
 router.use('/updateuser',updateuser);
+router.use('/userdata',userdata);
 router.use('/deleteuser',deleteuser);
 
 module.exports = router;

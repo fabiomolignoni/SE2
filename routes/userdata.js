@@ -10,13 +10,9 @@ var Utente =  require('../models/Utente.js');
 // =======================
 router.get('/', function (req, res) {
   var query = {};
-  if(req.query.id){
-    query['_id'] = req.query.id;
-  }
-  else{
-    query['email'] = req.query.email;
-  }
-  Utente.findOne(query, function(err, user) {
+  Utente.findOne({
+    _id = req.decoded.id
+  }, function(err, user) {
     if (err){
       console.log(err);
       return res.json({success: false, log:"internal error"});
