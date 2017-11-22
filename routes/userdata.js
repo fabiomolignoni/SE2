@@ -11,7 +11,7 @@ var Utente =  require('../models/Utente.js');
 router.get('/', function (req, res) {
   var query = {};
   Utente.findOne({
-    _id = req.decoded.id
+    _id : req.decoded.id
   }, function(err, user) {
     if (err){
       console.log(err);
