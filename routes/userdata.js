@@ -10,7 +10,7 @@ var Utente =  require('../models/Utente.js');
 // =======================
 router.get('/', function (req, res) {
   Utente.findOne({ //search user
-    email : req.query.email
+    id : req.query.id
   }, function(err, user) {
     if (err){
       console.log(err);
@@ -25,7 +25,7 @@ router.get('/', function (req, res) {
         name: user.name,
         surname: user.surname,
         email: user.email,
-        image: 'localhost:8080/images/profile/'+user._id,
+        image: 'https://messageinabot.herokuapp.com/images/profile/'+user._id,
         phone: user.phone
       });
     }
