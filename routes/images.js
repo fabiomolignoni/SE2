@@ -17,7 +17,7 @@ router.get('/profile/:id', function (req, res) {
     if (err){
       console.log(err);
       res.contentType('application/json');
-      return res.json({sucess: false, log: "internal error"});
+      return res.json({sucess: false, log: "image not found"});
     }
     if (!user) {
       res.contentType('application/json');

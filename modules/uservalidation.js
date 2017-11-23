@@ -40,8 +40,8 @@ function getUserImage(image){
     contentType ='image/'+ image.name.split('.').pop();
   }
   else{
-    data = undefined;
-    contentType = undefined;
+    data = fs.readFileSync("./images/default.png");
+    contentType = 'image/png';
   }
   return[data, contentType];
 }

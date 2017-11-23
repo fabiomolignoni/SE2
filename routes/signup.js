@@ -31,7 +31,13 @@ router.post('/', function (req, res) {
       if(phone != "-1"){
         utente.phone = phone;
       }
-      var image = uservalid.getUserImage(files.image);
+      var image;
+      if(files.image){
+        image = uservalid.getUserImage(files.image);
+      }
+      else{
+        image = uservalid.getUserImage();
+      }
       if(typeof image[0] != 'undefined'){
         utente.image.data = image[0];
         utente.image.contentType = image[1];
