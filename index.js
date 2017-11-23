@@ -6,13 +6,13 @@ const app         = express();
 const bodyParser  = require('body-parser');
 const morgan      = require('morgan');
 const mongoose    = require('mongoose');
+const cors = require('cors');
 // =======================
 // configurazione parametri
 // =======================
 var config = require('./config.js'); // file di configurazione
 var signup = require('./routes/signup.js');
 var login = require('./routes/login.js');
-var userdata = require('./routes/userdata.js');
 var reserved = require('./routes/reserved.js');
 var images = require('./routes/images.js');
 
@@ -31,7 +31,6 @@ app.use(cors());
 // =======================
 app.use('/signup', signup);
 app.use('/login', login);
-app.use('/userdata', userdata);
 app.use('/reserved', reserved);
 app.use('/images',images);
 // =======================
