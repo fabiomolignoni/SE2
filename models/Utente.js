@@ -3,7 +3,7 @@ var fs = require('fs');
 var Schema = mongoose.Schema;
 
 //Path dell'immagine del profilo predefinita
-var defImg = './images/default.png';
+var defImg = '../images/default.png';
 
 // set up a mongoose model and pass it using module.exports
 module.exports = mongoose.model('Utente', new Schema({
@@ -19,19 +19,6 @@ module.exports = mongoose.model('Utente', new Schema({
             contentType: mongoose.Schema.Types.ObjectId
         }
     },
-    phone: { type: String },
-    ads: [
-        {
-            title: { type: String, required: true },
-            desc: { type: String },
-            price: { type: Number, required: true },
-            date: { type: Date, required: true },
-            images: [
-                {
-                    data: { type: Buffer },
-                    contentType: { type: String }
-                }
-            ]
-        }
-    ]
-}));
+    phone: { type: String }
+},
+{collection: 'utenti'}));
