@@ -38,7 +38,7 @@ router.get('/profile/:id', function (req, res) {
 
 router.get('/ad/:id', function (req, res) {
   var index = req.params.id.split('_').pop();
-  var id = req.params.id.replace('_'+index, "");;
+  var id = req.params.id.replace('_'+index, "");
   Annuncio.findOne({ //search ad
     _id : id
   }, function(err, ad) {

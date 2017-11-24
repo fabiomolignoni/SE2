@@ -24,6 +24,7 @@
     "bcrypt": "^1.0.3",
     "body-parser": "^1.18.2",
     "cors": "^2.8.4",
+    "elasticlunr": "^0.9.5",
     "express": "^4.16.2",
     "file-system": "^2.2.2",
     "formidable": "^1.1.1",

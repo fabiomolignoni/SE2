@@ -19,7 +19,7 @@ router.post('/', function (req, res) {
       annuncio.author = req.decoded.id;
       annuncio.title = req.fields.title;
       annuncio.desc = req.fields.desc;
-      annuncio.price = req.fields.price;
+      annuncio.price = req.fields.price.replace('.', ",");;
       annuncio.category = req.fields.category.toLowerCase();
       annuncio.date = new Date(); //take current time
       var images = [];

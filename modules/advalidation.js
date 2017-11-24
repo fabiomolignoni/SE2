@@ -4,9 +4,12 @@ const path = require('path');
 
 var categorie = ["libri", "appunti", "stage/lavoro", "ripetizioni","eventi"];
 
+function isValidCategory(category){
+  return categorie.indexOf(category.toLowerCase()) != -1;
+}
+
 function verifyParameters(title, text, price, category){ //manca verificare se è in una categoria giusta
-  if(!title || !text || !price ||!category ||!price||!validator.isCurrency(price.toString())|| categorie.indexOf(category.toLowerCase()) == -1){
-    console.log(title+" "+price);
+  if(!title || !text || !price ||!category ||!price||!validator.isCurrency(price.toString())|| !isValidCategory(category)){    
     return false;
   }
   else{
@@ -31,6 +34,7 @@ function getAdImage(image){
 function getDefaultAdImage(){
   return [fs.readFileSync("./images/ad.jpg"),"image/jpg"];
 }
+module.exports.isValidCategory = isValidCategory;
 module.exports.verifyParameters = verifyParameters;
 module.exports.getAdImage = getAdImage;
 module.exports.getDefaultAdImage = getDefaultAdImage;
