@@ -8,26 +8,19 @@ const router = express.Router();
 // GET /createad token, title, text, price and category
 // images are optional
 // =======================
-var categorie = ["libri", "appunti", "stage/lavoro", "ripetizioni","eventi"];
 router.post('/', function (req, res) {
   res.contentType('application/json');
-    if(!advalid.verifyParameters(req.fields.title, req.fields.text, req.fields.price, req.fields.category)){
-      return res.json({success: false, log:"You must specify a valid title, text, price and category"});
+    if(!advalid.verifyParameters(req.fields.title, req.fields.desc, req.fields.price, req.fields.category)){
+      return res.json({success: false, log:"You must specify a valid title, desc, price and category"});
     }
     else{
       //create the ad
       var annuncio = new Annuncio();
       annuncio.author = req.decoded.id;
       annuncio.title = req.fields.title;
-      annuncio.text = req.fields.text;
+      annuncio.desc = req.fields.desc;
       annuncio.price = req.fields.price;
-      var category = req.fields.category.toLowerCase();
-      if (categorie.indexOf(category) > -1){
-        annuncio.category = category;
-      }
-      else{
-        return res.json({success: false, log:"Category is not valid"});
-      }
+      annuncio.category = req.fields.category.toLowerCase();
       annuncio.date = new Date(); //take current time
       var images = [];
 

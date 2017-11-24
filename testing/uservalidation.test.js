@@ -31,3 +31,8 @@ test('getPhone with text returns -1',()=>{
 test('getPhone with wrong number returns -1',()=>{
   expect(uservalidation.getPhone(333)).toBe("-1");
 });
+
+//getUserImage
+test('getUserImage without image returns the default image',()=>{
+  expect(uservalidation.getUserImage()).toContain("image/png");
+});

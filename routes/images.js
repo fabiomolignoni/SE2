@@ -4,6 +4,7 @@
 const express     = require('express');
 const router = express.Router();
 const Utente =  require('../models/Utente.js');
+const Annuncio =  require('../models/Annuncio.js');
 const fs    = require('file-system');
 
 // =======================
@@ -30,6 +31,34 @@ router.get('/profile/:id', function (req, res) {
       else{
         res.contentType('image/png'); //if there is not an image in the DB return the default image
         res.send(fs.readFileSync('./images/default.png'));
+      }
+    }
+  });
+});
+
+router.get('/ad/:id', function (req, res) {
+  var index = req.params.id.split('_').pop();
+  var id = req.params.id.replace('_'+index, "");;
+  Annuncio.findOne({ //search ad
+    _id : id
+  }, function(err, ad) {
+    if (err){
+      console.log(err);
+      res.contentType('application/json');
+      return res.json({sucess: false, log: "image not found"});
+    }
+    if (!ad) {
+      res.contentType('application/json');
+      return res.json({sucess: false, log: "unable to find ad"});
+    } else if (ad) {
+      if(ad.images[index]){
+        console.log(ad.images[index]);
+        res.contentType(ad.images[index].contentType);
+        res.send(ad.images[index].data);
+      }
+      else{
+        res.contentType('image/jpg'); //if there is not an image in the DB return the default image
+        res.send(fs.readFileSync('./images/ad.jpg'));
       }
     }
   });

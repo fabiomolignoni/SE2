@@ -2,9 +2,10 @@ const fs    = require('file-system');
 const validator = require('validator');
 const path = require('path');
 
+var categorie = ["libri", "appunti", "stage/lavoro", "ripetizioni","eventi"];
 
 function verifyParameters(title, text, price, category){ //manca verificare se è in una categoria giusta
-  if(!title || !text || !price ||!category ||!price||validator.isCurrency(price.toString())){
+  if(!title || !text || !price ||!category ||!price||!validator.isCurrency(price.toString())|| categorie.indexOf(category.toLowerCase()) == -1){
     console.log(title+" "+price);
     return false;
   }
