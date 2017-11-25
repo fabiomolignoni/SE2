@@ -9,7 +9,7 @@ function isValidCategory(category){
 }
 
 function verifyParameters(title, text, price, category){ //manca verificare se è in una categoria giusta
-  if(!title || !text || !price ||!category ||!price||!validator.isCurrency(price.toString())|| !isValidCategory(category)){    
+  if(!title || !text || !price ||!category ||!price||!validator.isCurrency(price.toString().replace(',', "."))|| !isValidCategory(category)){
     return false;
   }
   else{

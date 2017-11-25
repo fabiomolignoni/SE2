@@ -17,7 +17,7 @@ router.get('/', function (req, res) {
     query['category'] = req.query.category.toLowerCase();
   }
   if(req.query.gratis == 'true'){ //if gratis price needs to be 0
-    query['price'] = "0,00";
+    query['price'] = "0.00";
   }
   Annuncio.find(query, function(err, ads) {
     if (err){
