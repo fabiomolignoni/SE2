@@ -8,7 +8,7 @@ var Annuncio =  require('../models/Annuncio.js');
 // =======================
 // GET /userads
 // =======================
-router.get('/', function (req, res) {
+router.post('/', function (req, res) {
   var query = {};
   Annuncio.find({
     author : req.decoded.id
@@ -24,6 +24,7 @@ router.get('/', function (req, res) {
       for (index in ads){
         var ad = ads[index];
         currentAd = {};
+        currentAd['id'] =ad._id;
         currentAd['title'] =ad.title;
         currentAd['desc'] =ad.desc;
         currentAd['price'] =ad.price;

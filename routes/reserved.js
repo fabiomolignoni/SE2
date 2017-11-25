@@ -9,6 +9,7 @@ const deleteuser = require('./deleteuser.js');
 const userdata = require('./userdata.js');
 const createad = require('./createad.js');
 const userads = require('./userads.js');
+const deletead = require('./deletead.js');
 const config =  require('../config.js');
 const router = express.Router();
 
@@ -62,5 +63,6 @@ router.use('/userdata',userdata);
 router.use('/userads',userads);
 router.use('/deleteuser',deleteuser);
 router.use('/createad',createad);
+router.use('/deletead',deletead);
 
 module.exports = router;

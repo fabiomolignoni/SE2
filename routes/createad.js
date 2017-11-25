@@ -5,12 +5,12 @@ const advalid =  require('../modules/advalidation.js');
 const router = express.Router();
 
 // =======================
-// GET /createad token, title, text, price and category
+// POST /createad token, title, text, price and category
 // images are optional
 // =======================
 router.post('/', function (req, res) {
   res.contentType('application/json');
-    if(!advalid.verifyParameters(req.fields.title, req.fields.desc, req.fields.price, req.fields.category)){
+    if(!req.fields || !advalid.verifyParameters(req.fields.title, req.fields.desc, req.fields.price, req.fields.category)){
       return res.json({success: false, log:"You must specify a valid title, desc, price and category"});
     }
     else{
