@@ -16,6 +16,7 @@ var login = require('./routes/login.js');
 var reserved = require('./routes/reserved.js');
 var images = require('./routes/images.js');
 var getads = require('./routes/getads.js');
+var getlastads = require('./routes/getlastads.js');
 
 var port = process.env.PORT || 8080;
 
@@ -35,6 +36,7 @@ app.use('/login', login);
 app.use('/reserved', reserved);
 app.use('/images',images);
 app.use('/getads',getads);
+app.use('/getlastads',getlastads);
 // =======================
 // avvio del server
 // =======================
