@@ -73,10 +73,51 @@ body{
     font-family: 'Roboto Slab', serif;
 }
 
+@media(min-width: 992px){
 .cartellone{
     width:400px;
 }
+}
+
+@media(max-width: 576px){
+.cartellone{
+    width:200px;
+}
+}
+
+@media(max-width: 480px){
+.cartellone{
+    width:200px;
+}
+}
+
+@media(min-width: 480px){
+.cartellone_2{
+    width:150px;
+}
+} 
 
 .margine_articoli{
     margin-top: 10%;
+}
+
+.scritta_utente{
+   font-size: 32px;
+}
+
+.img_prof_piccola{
+    width:50px;
+    height: 50px;
+}
+
+.scritta_utente_form{
+   font-size: 26px;
+}
+
+.form_spaziatura{
+    padding: 5%;
+}
+
+.margine_form{
+    margin-top: 30px;
 }

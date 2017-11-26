@@ -5,8 +5,59 @@
  */
 
 
-function prendere_dati(){
 
 
-var boh = request.getOwnPropertyNames()
+function controllo_form(){
+    var nome = document.modulo.name.value;
+    var cognome = document.modulo.surname.value;
+    var email = document.modulo.email.value;
+    var password = document.modulo.password.value;
+    var rip_password = document.modulo.ripeti_psw.value;
+    
+    if(nome == "undefined" || nome == ''){
+      alert("Il campo Nome deve essere compilato!");
+   document.modulo.name.focus();
+   return false;
+    }
+    
+    if(cognome == "undefined" || cognome == ''){
+      alert("Il campo Cognome deve essere compilato!");
+   document.modulo.name.focus();
+   return false;
+    }
+    
+    if(email == "undefined" || email == ''){
+      alert("Il campo Email deve essere compilato!");
+   document.modulo.email.focus();
+   return false;
+    }
+    
+    if(password == "undefined" || password == ''){
+      alert("Il campo Password deve essere compilato!");
+   document.modulo.password.focus();
+   return false;
+    }
+    
+    if(password != rip_password){
+      alert("Le password non coincidono, reinseriscile!");
+         document.modulo.password.value = '';
+         document.modulo.ripeti_psw.value = '';
+   document.modulo.password.focus();
+   return false;
+    }
+}
+
+function invio_dati(){
+    $("#submit").click(function(){
+      var email=$("#email").val();
+      var pass=$("#password").val();
+      $.post("https://murmuring-peak-98537.herokuapp.com/login",{name:email,password:pass},function(data){
+        if(data.success){
+          document.cookie="token="+data.token;
+          location.reload();
+        }else{
+          document.getElementById("damodificare").innerHTML = "Mi dispiace, le credenziali sono errate";
+        }
+      });
+    });
 }

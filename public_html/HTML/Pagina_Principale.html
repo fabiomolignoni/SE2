@@ -13,9 +13,29 @@ and open the template in the editor.
         <script src="//code.jquery.com/jquery-1.10.2.js"></script> 
         <link href="../Css/Css_Aggiuntivo.css" rel="stylesheet" type="text/css"/>
         <link href="../Css/style.css" rel="stylesheet" type="text/css"/>
-        <script> $(function(){ $("#header").load("HeaderV2.html"); $("#footer").load("Footer.html"); }); </script>
-    </head>
-    <body><div id="header"></div>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+        <script src="../Javascript/Filtro.js" type="text/javascript"></script>
+        <script> $(function(){ $("#header_not_registered").load("Header_Not_Reg.html"); $("#header_registered").load("Header_Reg.html"); $("#footer").load("Footer.html"); }); </script>
+    </head> 
+    <body><script>
+        $(document).ready(function(){
+    document.getElementById("header_not_registered").style.display = 'block';
+    document.getElementById("header_registered").style.display = 'none';
+    $.get("https://messageinabot.herokuapp.com/reserved/userdata?token="+getCookie('token'),{},function(data){
+      if(!data.success){
+        document.getElementById("header_not_registered").style.display = 'block';
+      }
+      else{
+        document.getElementById("header_registered").style.display = 'block';
+        document.getElementById("nome").innerHTML = data.name;
+      }
+    });
+   
+  });
+        </script>
+        
+        <div id="header_not_registered"></div>
+        <div id="header_registered"></div>
         <div class="bg-gray ">
             <div class="container  background-full-site">
                 
@@ -40,12 +60,10 @@ and open the template in the editor.
                                                   
                            <select class="form-control col-md-2 col-sm-1" id="inline" name="filtro">
                                     <!-- INSERIRE DROPDOWN -->
-                                    <option selected value='tutto'>Tutte le categorie</option>                                    
+                                    <option selected value='tutto'>Categorie</option>                                    
                                     <option>Libri</option>
                                     <option>Appunti</option>
-                                    <option>Stage/Lavoro</option>
-                                    <option>Slide</option>
-                                    <option>Registrazione</option>
+                                    <option>Stage/Lavoro</option>   
                                     <option>Ripetizione</option>                                    
                                     <option>Eventi</option>
                                 </select>

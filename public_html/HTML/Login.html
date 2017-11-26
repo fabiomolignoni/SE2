@@ -10,16 +10,28 @@ and open the template in the editor.
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css">
+        <link href="../Css/Css_Aggiuntivo.css" rel="stylesheet" type="text/css"/>
     </head>
     <body>
         <div class="bg-gray">
-            <div class="container">
-                <form action="" method="POST">
-                    <input type="text" id="email">Email <br>
-                    <input type="text" id="password">Password <br>
-                    <input type="submit" class="btn btn-primary"> Login 
+            <div class="container bg-dark rounded border border-secondary margine_form">
+                 <div class="row align-self-center">
+                    
+                    <div class="col-md-10 offset-md-1 form_spaziatura">
+                <form name="modulo" action="https://messageinabot.herokuapp.com/login" method="POST" enctype="application/x-www-form-urlencoded">
+                    <div class="form-group">
+                         <label class=" font_sito_scritte scritta_utente_form">Email</label>
+                         <input type="text" class="form-control" placeholder="email" name="email"> 
+                    </div>
+                    <div class="form-group">
+                        <label  class=" font_sito_scritte scritta_utente_form">Password</label>
+                    <input type="password"  class="form-control" placeholder="password" name="password">
+                    </div>
+                    <br>
+                    <center> <input type="submit" class="btn btn-success font_sito_bottoni cartellone" value="Login"> </center>
                 </form>
-                
+                    </div>
+                 </div>
             </div>
         </div>
     </body>
