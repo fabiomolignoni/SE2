@@ -6,6 +6,7 @@ const app         = express();
 const bodyParser  = require('body-parser');
 const morgan      = require('morgan');
 const mongoose    = require('mongoose');
+const telegrambot    = require('./modules/telegrambot.js');
 const cors = require('cors');
 // =======================
 // configurazione parametri
@@ -38,7 +39,8 @@ app.use('/images',images);
 app.use('/getads',getads);
 app.use('/getlastads',getlastads);
 // =======================
-// avvio del server
+// avvio del server e del bot
 // =======================
+telegrambot.launchbot();
 app.listen(port);
 console.log('Server avviato sulla porta:' + port);
