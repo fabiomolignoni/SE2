@@ -14,6 +14,7 @@ and open the template in the editor.
       <script src = "https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css">
       <link href="https://fonts.googleapis.com/css?family=Barlow+Semi+Condensed|Roboto+Slab" rel="stylesheet">
+      <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
       
       <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"></script>
@@ -23,10 +24,16 @@ and open the template in the editor.
     </head>
     <body>
         <script>
+            
+  
             function deleteCookie( name ) {
   document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
   location.href='index.html'
-}
+  }
+  $("#logout").click(function(){
+      deleteCookie('token');
+  });
+
         </script>
    <nav class="navbar navbar-light bg-dark sticky-top">
             <a class="navbar-brand" href="index.html">
@@ -34,8 +41,8 @@ and open the template in the editor.
                 
             </a> <input id="annuncio" type="button" class="btn btn-success font_sito_bottoni cartellone_2" onclick="location.href='Crea_Annuncio.html'" value="Crea Annuncio">
   <img id="img_profilo" class="img_rotonda img_prof_piccola">
-        <span class="font_sito_scritte scritta_utente">Benvenuto</span>
-        <span class="font_sito_scritte scritta_utente2" id="nome"></span>
+  <span class="font_sito_scritte scritta_utente">Benvenuto</span>
+        <span class="font_sito_scritte scritta_utente" id="nome"></span>
         <div class="dropdown font_sito_bottoni">
             <a class="btn btn-success dropdown-toggle font-weight-bold cartellone_2" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
     Account
@@ -44,9 +51,9 @@ and open the template in the editor.
   <div class="dropdown-menu " aria-labelledby="dropdownMenuLink">
       <a class="dropdown-item" onclick="location.href='User.html'">Visualizza profilo</a>
     <a class="dropdown-item" href="#">Modifica profilo</a>
-    <a class="dropdown-item" onclick="deleteCookie()">Logout</a>
   </div>
 </div>
+        <input id="logout" type="button" class="btn btn-success font_sito_bottoni cartellone_2" value="Logout">
             
   <form class="form-inline">
     <input class="form-control  mr-sm-2" type="search" placeholder="Search" aria-label="Search">
