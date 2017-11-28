@@ -49,6 +49,7 @@ router.post('/', function (req, res) {
       });
     }
   });
+  return res.json({success: false, log:"Send multipart data"});
 });
 
 module.exports = router;
