@@ -200,3 +200,7 @@ div.jumbotron{
     max-width: 550px;
     max-height: 350px;
 }
+
+nav span{
+    padding: -50px;
+}
