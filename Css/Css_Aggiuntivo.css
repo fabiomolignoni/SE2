@@ -1,0 +1,202 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 8-nov-2017, 14.02.20
+    Author     : Davide Uni
+*/
+
+#bg-primary{
+    background-color: #bfbfbf;
+    margin-right: 5%;
+    margin-left: 5%;
+    
+}
+
+.img_rotonda{
+   -moz-border-radius: 250px;
+    -webkit-border-radius: 250px;
+    border-radius: 250px;
+    
+}
+
+.contenitore_inserzione{
+    background-color: #bfbfbf;
+  
+    height: 90%
+}
+
+#sfondo_verde{
+    background-color: green;
+    margin: 5%;
+    align-content: center;
+    
+}
+
+.testo{
+    padding: 1%
+}
+
+.footer_margin{
+    margin-top: 10px;
+  background-position: bottom;
+}
+
+.background-full-site{
+min-height: 800px;
+ height: 100%;
+ min-width: 80%
+     
+
+}
+
+.background-full-site_articolo{
+min-height: 800px;
+ height: 100%;
+ min-width: 90%
+     
+     
+
+}
+
+
+
+body{
+    height: 100%;
+}
+
+#inline{
+    display:inline;
+}
+
+.font_sito_bottoni{
+    color: white;
+    font-family: 'Barlow Semi Condensed', sans-serif;
+}
+
+.font_sito_scritte{
+    color: white;
+    font-family: 'Roboto Slab', serif;
+}
+
+.font_sito_scritte_nere{
+    color: black;
+    font-family: 'Roboto Slab', serif;
+}
+
+@media(min-width: 992px){
+.cartellone{
+    width:400px;
+}
+}
+
+@media(max-width: 576px){
+.cartellone{
+    width:200px;
+}
+}
+
+@media(max-width: 480px){
+.cartellone{
+    width:200px;
+}
+}
+
+@media(min-width: 480px){
+.cartellone_2{
+    width:150px;
+}
+} 
+
+.margine_articoli{
+    margin-top: 10%;
+}
+
+.scritta_utente{
+   font-size: 32px;
+}
+
+.scritta_utente2{
+   font-size: 16px;
+}
+
+.img_prof_piccola{
+    width:50px;
+    height: 50px;
+}
+
+.scritta_utente_form{
+   font-size: 26px;
+}
+
+.form_spaziatura{
+    padding: 5%;
+}
+
+.margine_form{
+    margin-top: 30px;
+}
+
+.margine_articoli_piccoli{
+    margin-top: 5%;
+}
+
+.font_sito_scritte_nere_articolo{
+    color: black;
+    font-family: 'Barlow Semi Condensed', serif;
+}
+
+.font_sito_scritte_nere_grandezza{
+    font-size: 18px;
+}
+
+.testo_pad{
+    padding: 5%
+}
+
+.img_pad{
+    margin-top: 25%;
+}
+
+.scatola_immagine{
+    width: 550px;
+    height: 350px;
+     box-shadow: 0px 0px 5px #888888;
+
+}
+
+scatola_immagine_principale{
+    z-index: -1;
+    position: absolute;
+}
+
+.scatola_immagine_sopra{
+    width: 400px;
+    height: 400px;
+    position: absolute;
+    z-index: 1;
+}
+
+.margine_articoli_immagine{
+    margin-top: 5%;
+}
+
+.dimensioni_frecce{
+    width: 30px;
+    height: 30px;
+}
+
+div figure img{
+  box-shadow: 0px 0px 5px #888888;
+}
+
+div.jumbotron{
+     box-shadow: 0px 0px 3px #888888;
+}
+
+.carousel img{
+    max-width: 550px;
+    max-height: 350px;
+}
