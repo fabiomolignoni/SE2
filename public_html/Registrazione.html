@@ -21,14 +21,16 @@ and open the template in the editor.
             $(document).ready(function(){
               document.getElementById("alert").style.display = 'none';
             $("#submit").click(function(){
+                if(controllo_form()){
                 var nome=$("#name").val();
       var cognome=$("#surname").val();
       var email=$("#email").val();
       var pass=$("#password").val();
       var phone=$("#phone").val();
       var img=$("#image").val();
+      
       $.post("https://messageinabot.herokuapp.com/signup",{name:nome, surname:cognome, email:email,password:pass, phone:phone, image:img},function(data){
-          console.log(data);
+          
         if(data.success){
           document.getElementById("alert").style.display = 'block';
           document.getElementById("alert").innerHTML = "Congratulazioni, account registrato con successo!";
@@ -37,10 +39,11 @@ and open the template in the editor.
             
           document.getElementById("alert").style.display = 'block';
           document.getElementById("alert").innerHTML = "Errore, email già utilizzata!";
-       
-        }
+      }
+        
       });
-    });
+  }
+        });
             });
         </script>
        <div class="bg-gray">
@@ -53,7 +56,7 @@ and open the template in the editor.
                     
                     <div class="col-md-10 offset-md-1 form_spaziatura">
                         
-                <form name="modulo" method="POST" enctype="multipart/form-data" >
+                <form name="modulo" method="POST"  enctype="application/x-www-form-urlencoded" >
                      <div class="form-group">
                          <label class=" font_sito_scritte scritta_utente_form">Nome</label>
                          <input type="text" class="form-control" placeholder="Nome" id="name" name="name"> 
@@ -83,7 +86,8 @@ and open the template in the editor.
                         <input type="file" id="image" name="image">
                     </div>
                     <center><div id="alert" class="alert alert-danger" role="alert"></div>
-                        <input id="submit" onclick="controllo_form()" type="button" class="btn btn-success font_sito_bottoni cartellone" value="Registrati"></center>
+                        
+                        <input id="submit" onclick="" type="button" class="btn btn-success font_sito_bottoni cartellone" value="Registrati"></center>
                      
                 </form>
                     </div>  

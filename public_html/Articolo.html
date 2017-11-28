@@ -20,17 +20,31 @@ and open the template in the editor.
     <link href="Css/Css_Aggiuntivo.css" rel="stylesheet" type="text/css"/>
     <script src="Javascript/Utente.js" type="text/javascript"></script>
     <script src="//code.jquery.com/jquery-1.10.2.js"></script> 
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src="../Javascript/Immagini.js" type="text/javascript"></script>
       <script> $(function(){ $("#header_not_registered").load("Header_Not_Reg.html"); $("#header_registered").load("Header_Reg.html"); $("#footer").load("Footer.html"); }); </script>
   </head>
   <body>
       <script>
+            function getCookie(name)
+ {
+   var re = new RegExp(name + "=([^;]+)");
+   var value = re.exec(document.cookie);
+   return (value != null) ? unescape(value[1]) : null;
+ };
+ 
+ 
+  
+  function doLogout(){
+    deleteCookie('token');
+  };
+
         $(document).ready(function(){
-    document.getElementById("header_not_registered").style.display = 'block';
+    document.getElementById("header_not_registered").style.display = 'none';
     document.getElementById("header_registered").style.display = 'none';
-    document.getElementById("img1").style.display = 'none';
+  /* document.getElementById("img1").style.display = 'none';
     document.getElementById("img2").style.display = 'none';
-    document.getElementById("img3").style.display = 'none';
+    document.getElementById("img3").style.display = 'none';*/
     $.get("https://messageinabot.herokuapp.com/reserved/userdata?token="+getCookie('token'),{},function(data){
       if(!data.success){
         document.getElementById("header_not_registered").style.display = 'block';
@@ -38,12 +52,11 @@ and open the template in the editor.
       else{
         document.getElementById("header_registered").style.display = 'block';
         document.getElementById("nome").innerHTML = data.name;
+          document.getElementById("img_profilo").innerHTML = data.image;
       }
     });
    
   });
-  
-  
         </script>
 
   
