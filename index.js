@@ -6,6 +6,7 @@ const app         = express();
 const bodyParser  = require('body-parser');
 const morgan      = require('morgan');
 const mongoose    = require('mongoose');
+const telegrambot    = require('./modules/telegrambot.js');
 const cors = require('cors');
 // =======================
 // configurazione parametri
@@ -17,6 +18,7 @@ var reserved = require('./routes/reserved.js');
 var images = require('./routes/images.js');
 var getads = require('./routes/getads.js');
 var getlastads = require('./routes/getlastads.js');
+var getsinglead = require('./routes/getsinglead.js');
 
 var port = process.env.PORT || 8080;
 
@@ -37,8 +39,10 @@ app.use('/reserved', reserved);
 app.use('/images',images);
 app.use('/getads',getads);
 app.use('/getlastads',getlastads);
+app.use('/getsinglead',getsinglead);
 // =======================
-// avvio del server
+// avvio del server e del bot
 // =======================
+telegrambot.launchbot();
 app.listen(port);
 console.log('Server avviato sulla porta:' + port);

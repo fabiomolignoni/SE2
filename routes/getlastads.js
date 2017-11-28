@@ -39,6 +39,7 @@ router.get('/', function (req, res) {
           currentAd['title'] =ad.title;
           currentAd['desc'] =ad.desc;
           currentAd['price'] =ad.price;
+          currentAd['id'] =ad._id;
           currentAd['date'] =ad.date;
           currentAd['category'] =ad.category;
           var images = [];
