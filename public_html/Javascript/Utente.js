@@ -47,17 +47,9 @@ function controllo_form(){
     }
 }
 
-function invio_dati(){
-    $("#submit").click(function(){
-      var email=$("#email").val();
-      var pass=$("#password").val();
-      $.post("https://murmuring-peak-98537.herokuapp.com/login",{name:email,password:pass},function(data){
-        if(data.success){
-          document.cookie="token="+data.token;
-          location.reload();
-        }else{
-          document.getElementById("damodificare").innerHTML = "Mi dispiace, le credenziali sono errate";
-        }
-      });
-    });
-}
+function doRedirect() {
+    
+    location.href = "..\index.html";
+  }
+  
+  

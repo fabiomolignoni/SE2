@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Registrazione</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css">
+        <script src="Javascript/Utente.js" type="text/javascript"></script>
+        <link href="Css/Css_Aggiuntivo.css" rel="stylesheet" type="text/css"/>
+         <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+          <script> $(function(){  $("#footer").load("Footer.html"); }); </script>
+    </head>
+    <body>
+        
+        <script>
+            $(document).ready(function(){
+              document.getElementById("alert").style.display = 'none';
+            $("#submit").click(function(){
+                var nome=$("#name").val();
+      var cognome=$("#surname").val();
+      var email=$("#email").val();
+      var pass=$("#password").val();
+      var phone=$("#phone").val();
+      var img=$("#image").val();
+      $.post("https://messageinabot.herokuapp.com/signup",{name:nome, surname:cognome, email:email,password:pass, phone:phone, image:img},function(data){
+          console.log(data);
+        if(data.success){
+          document.getElementById("alert").style.display = 'block';
+          document.getElementById("alert").innerHTML = "Congratulazioni, account registrato con successo!";
+         window.setTimeout(doRedirect(),5000);
+        }else{
+            
+          document.getElementById("alert").style.display = 'block';
+          document.getElementById("alert").innerHTML = "Errore, email già utilizzata!";
+       
+        }
+      });
+    });
+            });
+        </script>
+       <div class="bg-gray">
+           <center><a href="index.html">
+                   <img class="margine_articoli_piccoli" src="https://i.imgur.com/A5vcTIb.png"  alt=""/>
+  </a></center>
+            <div class="container bg-dark rounded border border-secondary margine_form">
+                
+                <div class="row align-self-center">
+                    
+                    <div class="col-md-10 offset-md-1 form_spaziatura">
+                        
+                <form name="modulo" method="POST" enctype="multipart/form-data" >
+                     <div class="form-group">
+                         <label class=" font_sito_scritte scritta_utente_form">Nome</label>
+                         <input type="text" class="form-control" placeholder="Nome" id="name" name="name"> 
+                    </div>
+                    <div class="form-group">
+                        <label  class=" font_sito_scritte scritta_utente_form">Cognome</label>
+                        <input type="text"  class="form-control" placeholder="Cognome" id="surname" name="surname">
+                    </div>
+                    <div class="form-group">
+                        <label class=" font_sito_scritte scritta_utente_form">Email</label>
+                        <input type="email"  class="form-control" placeholder="Email" id="email" name="email">
+                    </div>
+                    <div class="form-group">
+                        <label class=" font_sito_scritte scritta_utente_form">Password</label>
+                        <input type="password"  class="form-control" placeholder="Password" id="password" name="password">
+                    </div>
+                    <div class="form-group">
+                        <label class=" font_sito_scritte scritta_utente_form">Ripeti Password</label>
+                    <input type="password"  class="form-control" placeholder="Ripeti Password" name="ripeti_psw">
+                    </div>
+                    <div class="form-group">
+                        <label class=" font_sito_scritte scritta_utente_form">Telefono (Opzionale)</label>
+                        <input type="text"  class="form-control" placeholder="Telefono" id="phone" name="phone">
+                    </div>
+                    <div class="form-group">
+                        <label class=" font_sito_scritte scritta_utente_form">Immagine Profilo (Opzionale)</label> <br>
+                        <input type="file" id="image" name="image">
+                    </div>
+                    <center><div id="alert" class="alert alert-danger" role="alert"></div>
+                        <input id="submit" onclick="controllo_form()" type="button" class="btn btn-success font_sito_bottoni cartellone" value="Registrati"></center>
+                     
+                </form>
+                    </div>  
+            </div>  
+            </div>
+        </div>
+        <br>
+        <br>
+        <div id="footer"></div>
+    </body>
+</html>
