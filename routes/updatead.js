@@ -28,16 +28,44 @@ router.post('/', function (req, res) {
       changes['category'] = (req.fields.category);
     }
   }
+  var currentImages = [];
+  Annuncio.findOne({_id: req.fields.id}).exec().then(function(ad){
+    if(req.fields.deleteImages || req.files){
+      currentImages = ad.images.slice();
+      if(req.fields.deleteImages){
+        for(var i = 0; i<currentImages.length; i++){ //remove images
+          var currentLink = 'https://messageinabot.herokuapp.com/images/ad/'+ad._id+'_'+i;
+          var index = req.fields.deleteImages.indexOf(currentLink);
+          if(index >-1){
+            i--;
+            currentImages.splice(index, 1); //remove the element from array
+          }
+        }
+      }
+      for(var image in req.files){ //add images
+        var newImage = advalid.getAdImage(req.files[image]);
+        if(newImage[0] != 'undefined'){
+          currentImages.push({data: newImage[0], contentType: newImage[1]});
+        }
+      }
+      if(currentImages.length == 0){ //if there is no valid image upload the default image
+        var image = advalid.getDefaultAdImage();
+        currentImages.push({data: image[0], contentType: image[1]});
+      }
+      console.log(currentImages);
+      changes['images'] = currentImages;
 
-  Annuncio.findOneAndUpdate({_id:req.fields.id},changes,{new: true},function(err, doc){ //update data with the json
-    if(err){
-      console.log(err);
-      return res.json({success: false, log: "impossible to update ad"});
     }
-    else{
-      return res.json({success: true, log: "ad update correctly"});
-    }
+    Annuncio.findOneAndUpdate({_id:req.fields.id},changes,{new: true},function(err, doc){ //update data with the json
+      if(err){
+        console.log(err);
+        return res.json({success: false, log: "impossible to update ad"});
+      }
+      else{
+        return res.json({success: true, log: "ad updated correctly"});
+      }
+    });
   });
 });
 
-module.exports = router;
+  module.exports = router;
