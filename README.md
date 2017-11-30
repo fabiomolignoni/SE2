@@ -1,6 +1,6 @@
-#API
+API
 
-##Utente
+Utente
 
 | Metodo | path | parametri input | parametri output |
 | ------ | ---- | --------------- | ---------------- |
@@ -10,12 +10,12 @@
 | POST | https://messageinabot.herokuapp.com/reserved/updateuser | token, (name, surname, email, password image, phone) | success, log |
 | POST | https://messageinabot.herokuapp.com/reserved/deleteuser | token | success, log |
 
-##Ad
+Ad
 
-| Metodo | path | parametri input | parametri output |
-| ------ | ---- | --------------- | ---------------- |
-| POST | https://messageinabot.herokuapp.com/reserved/createad | title, desc, category, price (images), token | success |
-| POST | https://messageinabot.herokuapp.com/reserved/deletead | id, token | success |
-| GET | https://messageinabot.herokuapp.com/getads | (searchString, category, gratis, from, to) | success, ads |
-| GET | https://messageinabot.herokuapp.com/getlastads | (from, to) | success, ads |
-| POST | https://messageinabot.herokuapp.com/reserved/userads | token | success, ads |
+| Metodo | funzione | path | parametri input | parametri output |
+| ------ | -------- | ---- | --------------- | ---------------- |
+| POST | creare un annuncio (necessario multipart) | https://messageinabot.herokuapp.com/ads | title, desc, category, price (images), token | success |
+| PUT | aggiornare un annuncio (necessario multipart, deleteImages è un array di link) | https://messageinabot.herokuapp.com/ads/<id_ad> | (title, desc, category, price images, deleteImages), token | success |
+| DELETE | eliminare un annuncio | https://messageinabot.herokuapp.com/ads/<id_ad> | token | success |
+| GET | prendere singolo annuncio | https://messageinabot.herokuapp.com/ads/<id_ad> |  | success, ad |
+| GET | https://messageinabot.herokuapp.com/ads | (q, category, gratis, limit, offset, fromLast) | success, ads |

@@ -1,48 +1,45 @@
 // =======================
-// Dichiarazione pacchetti
+// packages
 // =======================
-const express     = require('express');
-const app         = express();
-const bodyParser  = require('body-parser');
-const morgan      = require('morgan');
-const mongoose    = require('mongoose');
-const telegrambot    = require('./modules/telegrambot.js');
-const cors = require('cors');
-// =======================
-// configurazione parametri
-// =======================
-var config = require('./config.js'); // file di configurazione
-var signup = require('./routes/signup.js');
-var login = require('./routes/login.js');
-var reserved = require('./routes/reserved.js');
-var images = require('./routes/images.js');
-var getads = require('./routes/getads.js');
-var getlastads = require('./routes/getlastads.js');
-var getsinglead = require('./routes/getsinglead.js');
+const express = require('express')
+const app = express()
+const bodyParser = require('body-parser')
+const morgan = require('morgan')
+const mongoose = require('mongoose')
+const telegrambot = require('./modules/telegrambot.js')
+const cors = require('cors')
 
-var port = process.env.PORT || 8080;
+// =======================
+// parameters
+// =======================
+var config = require('./config.js')
+var signup = require('./routes/signup.js')
+var login = require('./routes/login.js')
+var reserved = require('./routes/reserved.js')
+var adroutes = require('./routes/ad/adroutes.js')
+
+var port = process.env.PORT || 8080
 
 mongoose.connect(config.database, {
-   useMongoClient: true
-});
+  useMongoClient: true
+})
 
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
-app.use(morgan('dev'));
-app.use(cors());
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json())
+app.use(morgan('dev'))
+app.use(cors())
+
 // =======================
 // routes
 // =======================
-app.use('/signup', signup);
-app.use('/login', login);
-app.use('/reserved', reserved);
-app.use('/images',images);
-app.use('/getads',getads);
-app.use('/getlastads',getlastads);
-app.use('/getsinglead',getsinglead);
+app.use('/signup', signup)
+app.use('/login', login)
+app.use('/reserved', reserved)
+app.use('/ads', adroutes)
+
 // =======================
-// avvio del server e del bot
+// start the server and the bot
 // =======================
-telegrambot.launchbot();
-app.listen(port);
-console.log('Server avviato sulla porta:' + port);
+// telegrambot.launchbot()
+app.listen(port)
+console.log('Server avviato sulla porta:' + port)
