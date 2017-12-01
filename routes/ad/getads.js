@@ -85,7 +85,7 @@ router.get('/', function (req, res) {
         actualAd.author = 'https://messageinabot.herokuapp.com/users/' + adsElements[i].author
         var images = []
         for (var k = 0; k < adsElements[i].images.length; k++) { // add all images
-          images.push('https://messageinabot.herokuapp.com/ads/' + req.params.id + '/images?index=' + k)
+          images.push('https://messageinabot.herokuapp.com/ads/' + adsElements[i]._id + '/images?index=' + k)
         }
         actualAd.images = images
         returnAds.push(actualAd)

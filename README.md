@@ -18,4 +18,4 @@ Ad
 | PUT | aggiornare un annuncio (necessario multipart, deleteImages è un array di link) | https://messageinabot.herokuapp.com/ads/<id_ad> | (title, desc, category, price images, deleteImages), token | success |
 | DELETE | eliminare un annuncio | https://messageinabot.herokuapp.com/ads/<id_ad> | token | success |
 | GET | prendere singolo annuncio | https://messageinabot.herokuapp.com/ads/<id_ad> |  | success, ad |
-| GET | https://messageinabot.herokuapp.com/ads | (q, category, gratis, limit, offset, fromLast) | success, ads |
+| GET | recuperare annunci (q = query da fare) | https://messageinabot.herokuapp.com/ads | (q, category, gratis, limit, offset, fromLast) | success, ads |
