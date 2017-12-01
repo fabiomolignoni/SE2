@@ -16,7 +16,7 @@ test('verifyParameters without paramaters returns false',()=>{
   expect(advalidation.verifyParameters()).toBe(false);
 });
 test('verifyParameters with invalid price returns false',()=>{
-  expect(advalidation.verifyParameters("Appunti analisi","Descrizione","3.10.05","appunti")).toBe(false);
+  expect(advalidation.verifyParameters("Appunti analisi","Descrizione","test","appunti")).toBe(false);
 });
 test('verifyParameters with invalid category returns false',()=>{
   expect(advalidation.verifyParameters("Appunti analisi","Descrizione","3.10","note")).toBe(false);

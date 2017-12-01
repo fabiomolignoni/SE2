@@ -7,6 +7,7 @@ var Annuncio = require('../../models/Annuncio.js')
 // GET /ads/<id>
 // =======================
 var getsinglead = function (req, res) {
+  res.contentType('application/json')
   Annuncio.findOne({_id: req.params.id}, function (err, ad) {
     if (err) {
       console.log(err)

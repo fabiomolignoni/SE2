@@ -13,7 +13,8 @@ function adsDateSort (a, b) {
 
 // =======================
 // GET /getads category, gratis, searchString, from, to
-// default: category=none, gratis=false, q = none, limit = 0, offset = #ads, fromlast = false
+// default: category=none, gratis=false, q = none, limit = 0, offset = #ads,
+// fromlast = false, lessThan = None, user = None, title = none
 // =======================
 router.get('/', function (req, res) {
   var query = {} // query for the DB
@@ -26,6 +27,12 @@ router.get('/', function (req, res) {
   if (req.query.user) {
     query['author'] = req.query.user
   }
+  if (req.query.title) {
+    query['title'] = req.query.title
+  }
+  if (req.query.lessThan && !isNaN(parseFloat(req.query.lessThan))) {
+    query['price'] = {$lt: parseFloat(req.query.lessThan) + 0.01}
+  }
   Annuncio.find(query, function (err, ads) {
     if (err) {
       console.log(err)
@@ -35,11 +42,11 @@ router.get('/', function (req, res) {
       return res.json({success: false, message: 'No ads found'})
     } else if (ads) {
       var from = 0
-      if (req.query.offset && !isNaN(parseInt(req.query.offset))) {  // if from parameter is valid
+      if (req.query.offset && !isNaN(parseInt(req.query.offset)) && parseInt(req.query.offset) >= 0) {  // if from parameter is valid
         from = parseInt(req.query.offset)
       }
       var to = ads.length
-      if (req.query.to && !isNaN(parseInt(req.query.limit)) && from <= parseInt(req.query.limit)) { // if to parameter is valid
+      if (req.query.limit && !isNaN(parseInt(req.query.limit)) && from + parseInt(req.query.limit) <= ads.length) { // if to parameter is valid
         to = from + parseInt(req.query.limit)
       }
       var adsElements = [] // ads that will be send back
@@ -73,7 +80,7 @@ router.get('/', function (req, res) {
       if (req.query.fromLast === 'true') { // reorder from last created
         adsElements.sort(adsDateSort)
       }
-      adsElements.slice(from, to)
+      adsElements = adsElements.slice(from, to)
       var returnAds = []
       for (let i in adsElements) {
         var actualAd = {}
@@ -82,6 +89,7 @@ router.get('/', function (req, res) {
         actualAd.price = adsElements[i].price
         actualAd.category = adsElements[i].category
         actualAd.date = adsElements[i].date
+        actualAd.id = adsElements[i].id
         actualAd.author = 'https://messageinabot.herokuapp.com/users/' + adsElements[i].author
         var images = []
         for (var k = 0; k < adsElements[i].images.length; k++) { // add all images

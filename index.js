@@ -13,9 +13,7 @@ const cors = require('cors')
 // parameters
 // =======================
 var config = require('./config.js')
-var signup = require('./routes/signup.js')
-var login = require('./routes/login.js')
-var reserved = require('./routes/reserved.js')
+var users = require('./routes/user/userroutes.js')
 var adroutes = require('./routes/ad/adroutes.js')
 
 var port = process.env.PORT || 8080
@@ -32,9 +30,7 @@ app.use(cors())
 // =======================
 // routes
 // =======================
-app.use('/signup', signup)
-app.use('/login', login)
-app.use('/reserved', reserved)
+app.use('/users', users)
 app.use('/ads', adroutes)
 
 // =======================

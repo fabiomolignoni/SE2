@@ -14,10 +14,10 @@ const adimages = require('./adimages')
 // routes
 // =======================
 router.get('/', getads)
-router.post('/', createad)
 router.get('/:id', getsinglead)
+router.get('/:id/images', adimages)
+router.post('/', createad)
 router.put('/:id', updatead)
 router.delete('/:id', deletead)
-router.get('/:id/images', adimages)
 
 module.exports = router

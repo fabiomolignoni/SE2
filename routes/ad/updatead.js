@@ -1,5 +1,5 @@
 // =======================
-// Dichiarazione pacchetti
+// packages
 // =======================
 const Annuncio = require('../../models/Annuncio.js')
 const advalid = require('../../modules/advalidation.js')
@@ -37,8 +37,9 @@ var updatead = function (req, res) {
               if (fields.desc) {
                 changes['desc'] = fields.desc
               }
-              if (fields.price && validator.isCurrency(fields.price.replace(',', '.'))) {
-                changes['price'] = fields.price.replace(',', '.')
+              if (fields.price && !isNaN(parseFloat(fields.price))) {
+                let prezzo = fields.price.replace(',', '.')
+                changes['price'] = parseFloat(prezzo).toFixed(2)
               }
               if (fields.category && advalid.isValidCategory(fields.category)) {
                 changes['category'] = (fields.category)
@@ -50,8 +51,7 @@ var updatead = function (req, res) {
                 return res.status(500).send({success: false, log: 'impossible to update ad'})
               } else {
                 if (fields.deleteImages) {
-                  var daCancellare = fields.deleteImages.split('&')
-                  console.log(ad.images)
+                  var daCancellare = fields.deleteImages
                   for (let i in daCancellare) {
                     var index = daCancellare[i].split('=').pop()
                     index = parseInt(index)
