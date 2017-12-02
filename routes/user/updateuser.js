@@ -55,7 +55,7 @@ var updateUser = function (req, res) {
               changes['image.contentType'] = image[1]
             }
             // update data with the json
-            Utente.findOneAndUpdate({_id: req.params.id}, changes, {new: true}, function (err, doc) {
+            Utente.findOneAndUpdate({_id: decoded.id}, changes, {new: true}, function (err, doc) {
               if (err) {
                 console.log(err)
                 return res.json({success: false, log: 'impossible to update user'})
