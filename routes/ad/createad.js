@@ -47,10 +47,6 @@ var createad = function (req, res) {
                   images.push({data: currentImage[0], contentType: currentImage[1]})
                 }
               }
-              if (images.length === 0) { // if there is no valid image upload the default image
-                var defaultImage = advalid.getDefaultAdImage()
-                images.push({data: defaultImage[0], contentType: defaultImage[1]})
-              }
               annuncio.images = images
               // save the ad in the DB
               annuncio.save(function (err) {

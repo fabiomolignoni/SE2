@@ -3,6 +3,7 @@
 // =======================
 const Annuncio = require('../../models/Annuncio.js')
 const fs = require('file-system')
+var advalid = require('../../modules/advalidation.js')
 
 // =======================
 // GET /ad/<id>?index=val

@@ -36,6 +36,6 @@ app.use('/ads', adroutes)
 // =======================
 // start the server and the bot
 // =======================
-// telegrambot.launchbot()
+telegrambot.launchbot()
 app.listen(port)
 console.log('Server avviato sulla porta:' + port)

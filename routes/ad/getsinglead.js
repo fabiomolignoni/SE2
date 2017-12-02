@@ -26,6 +26,9 @@ var getsinglead = function (req, res) {
       for (var i = 0; i < ad.images.length; i++) {
         images.push('https://messageinabot.herokuapp.com/ads/' + req.params.id + '/images?index=' + i)
       }
+      if (images.length === 0) { // if there is no valid image send the default image
+        images.push('https://messageinabot.herokuapp.com/ads/' + req.params.id + '/images?index=0')
+      }
       currentAd['images'] = images
       return res.status(200).send({
         success: true,

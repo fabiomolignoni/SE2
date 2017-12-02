@@ -95,6 +95,9 @@ router.get('/', function (req, res) {
         for (var k = 0; k < adsElements[i].images.length; k++) { // add all images
           images.push('https://messageinabot.herokuapp.com/ads/' + adsElements[i]._id + '/images?index=' + k)
         }
+        if (images.length === 0) { // if there is no valid image send the default image
+          images.push('https://messageinabot.herokuapp.com/ads/' + adsElements[i]._id + '/images?index=0')
+        }
         actualAd.images = images
         returnAds.push(actualAd)
       }

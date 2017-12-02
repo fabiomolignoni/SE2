@@ -3,7 +3,6 @@
 // =======================
 const Annuncio = require('../../models/Annuncio.js')
 const advalid = require('../../modules/advalidation.js')
-const validator = require('validator')
 const config = require('../../config.js')
 const jwt = require('jsonwebtoken')
 const formidable = require('formidable')
@@ -51,15 +50,18 @@ var updatead = function (req, res) {
                 return res.status(500).send({success: false, log: 'impossible to update ad'})
               } else {
                 if (fields.deleteImages) {
-                  var daCancellare = fields.deleteImages
-                  for (let i in daCancellare) {
-                    var index = daCancellare[i].split('=').pop()
-                    index = parseInt(index)
+                  var possibleDelete = fields.deleteImages.split(',')
+                  var daCancellare = []
+                  for (let i in possibleDelete) { // select only valid indexes
+                    var index = possibleDelete[i].split('=').pop()
                     if (!isNaN(index)) {
-                      ad.images.splice(index, 1)
-                      console.log(ad.images)
-                      changes['images'] = ad.images
+                      daCancellare.push(index)
                     }
+                  }
+                  daCancellare.sort().reverse() // sort the indexes and start from bottom
+                  for (let i in daCancellare) {
+                    ad.images.splice(daCancellare[i], 1)
+                    changes['images'] = ad.images
                   }
                 }
                 for (let i in files) { // add images
@@ -68,11 +70,6 @@ var updatead = function (req, res) {
                     ad.images.push({data: newImage[0], contentType: newImage[1]})
                     changes['images'] = ad.images
                   }
-                }
-                if (ad.images.length === 0) { // if there is no valid image upload the default image
-                  var image = advalid.getDefaultAdImage()
-                  ad.images.push({data: image[0], contentType: image[1]})
-                  changes['images'] = ad.images
                 }
                 // update the ad
                 Annuncio.findOneAndUpdate({_id: req.params.id}, changes, {new: true}, function (err, doc) {
