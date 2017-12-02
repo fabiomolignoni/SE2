@@ -10,7 +10,7 @@ and open the template in the editor.
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css">
-        <script src="//code.jquery.com/jquery-1.10.2.js"></script> 
+      
         <link href="Css/Css_Aggiuntivo.css" rel="stylesheet" type="text/css"/>
         <link href="Css/style.css" rel="stylesheet" type="text/css"/>
         <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
@@ -18,6 +18,8 @@ and open the template in the editor.
         <script> $(function(){ $("#header_not_registered").load("Header_Not_Reg.html"); $("#header_registered").load("Header_Reg.html"); $("#footer").load("Footer.html"); }); </script>
     </head> 
     <body><script>
+        
+  
         
         function getCookie(name)
  {
@@ -31,27 +33,59 @@ and open the template in the editor.
   function doLogout(){
     deleteCookie('token');
   };
+  
+  
+  
+  //Carica gli header a seconda della situazione
 
         $(document).ready(function(){
     document.getElementById("header_not_registered").style.display = 'none';
     document.getElementById("header_registered").style.display = 'none';
-    $.get("https://messageinabot.herokuapp.com/reserved/userdata?token="+getCookie('token'),{},function(data){
+    $.get("https://messageinabot.herokuapp.com/users?token="+getCookie('token'),{},function(data){
       if(!data.success){
+
         document.getElementById("header_not_registered").style.display = 'block';
       }
       else{
+        
         document.getElementById("header_registered").style.display = 'block';
-        document.getElementById("nome").innerHTML = data.name;
-          document.getElementById("img_profilo").innerHTML = data.image;
+        document.getElementById("nome").innerHTML = "Benvenuto" + " " + data.name;
+          document.getElementById("img_profilo").src = data.image;
       }
     });
    
-  });
+      $.get("https://messageinabot.herokuapp.com/ads/",{},function(data){
+      if(data.success){
+          var lung = data.ads.length;
+          var url = new Array();
+          for(i = 0; i<4;i++){
+           document.getElementById("ads_img"+i).src = data.ads[lung-1].images[0];
+           document.getElementById("ads_title"+i).innerHTML = data.ads[lung-1].title;
+           document.getElementById("ads_desc"+i).innerHTML = data.ads[lung-1].desc;
+           
+         
+           var tmp = document.getElementById("ads_id"+i);
+           tmp.value = "Annuncio.html?id="+ data.ads[lung-1].id;
+           url[i] = tmp.value;
+           
+document.getElementById("ads_id"+i).setAttribute("href",url[i]);
+lung--;
+            }
+       
+      }
+      else{
+      
+      }
+    });
+   
+  }); 
+  
+  
         </script>
         
         <div id="header_not_registered"></div>
         <div id="header_registered"></div>
-        <div class="bg-gray ">
+        
             <div class="container  background-full-site">
                 
                 <br>
@@ -74,13 +108,12 @@ and open the template in the editor.
                        <form class="barra-ricerca" action="FUNZIONE_DA_FARE" method="get">
                                                   
                            <select class="form-control col-md-2 col-sm-1" id="inline" name="filtro">
-                                    <!-- INSERIRE DROPDOWN -->
-                                    <option selected value='tutto'>Categorie</option>                                    
-                                    <option>Libri</option>
-                                    <option>Appunti</option>
-                                    <option>Stage/Lavoro</option>   
-                                    <option>Ripetizione</option>                                    
-                                    <option>Eventi</option>
+                                    
+                                    <option selected value='libri'>Libri</option>
+                                    <option value='appunti'>Appunti</option>
+                                    <option value='stage/Lavoro'>Stage/Lavoro</option>   
+                                    <option value='ripetizione'>Ripetizione</option>                                    
+                                    <option value='eventi'>Eventi</option>
                                 </select>
                               
                             <!-- search box -->
@@ -94,34 +127,60 @@ and open the template in the editor.
                         </div>
                     </div>
                 
-                <div class="margine_articoli row align-items-center ">
-                <div class=" col-md-4 align-middle">
-                    <figure class="figure">
-                        <a href="Articolo.html"> <img src="data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22400%22%20height%3D%22300%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20400%20300%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_15fddbd37ea%20text%20%7B%20fill%3Argba(255%2C255%2C255%2C.75)%3Bfont-weight%3Anormal%3Bfont-family%3AHelvetica%2C%20monospace%3Bfont-size%3A20pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_15fddbd37ea%22%3E%3Crect%20width%3D%22400%22%20height%3D%22300%22%20fill%3D%22%23777%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%22148.7734375%22%20y%3D%22159%22%3E400x300%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E" class="figure-img img-fluid rounded" alt="A generic square placeholder image with rounded corners in a figure."></a>
-  <figcaption class="figure-caption">A caption for the above image.</figcaption>
-</figure>
+                <div class="margine_articoli  ">
+                
                     
-                </div>
-                <div class="col-md-4">
-                    <figure class="figure">
-  <img src="data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22400%22%20height%3D%22300%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20400%20300%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_15fddbd37ea%20text%20%7B%20fill%3Argba(255%2C255%2C255%2C.75)%3Bfont-weight%3Anormal%3Bfont-family%3AHelvetica%2C%20monospace%3Bfont-size%3A20pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_15fddbd37ea%22%3E%3Crect%20width%3D%22400%22%20height%3D%22300%22%20fill%3D%22%23777%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%22148.7734375%22%20y%3D%22159%22%3E400x300%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E" class="figure-img img-fluid rounded" alt="A generic square placeholder image with rounded corners in a figure.">
-  <figcaption class="figure-caption">A caption for the above image.</figcaption>
-</figure>
+                    <div class="card-deck">
+  <div class="card">
+      <img class="card-img-top" id="ads_img0"  alt="Card image cap">
+     
+    <div class="card-body">
+        <h4 class="card-title" id="ads_title0"></h4>
+      <p class="card-text" id="ads_desc0"></p>
+      <a id="ads_id0"  class="btn btn-success">Vai all'annuncio</a>
+    </div>
+   
+  </div>
+                        
+  <div class="card">
+      <img class="card-img-top" id="ads_img1"  alt="Card image cap">
+    <div class="card-body">
+        <h4 class="card-title" id="ads_title1"></h4>
+      <p class="card-text" id="ads_desc1"></p>
+     <a id="ads_id1" href="ads_id1" onclick="asd_id0" class="btn btn-success">Vai all'annuncio</a>
+    </div>
+   
+  </div>
+  <div class="card">
+      <img class="card-img-top" id="ads_img2"  alt="Card image cap">
+    <div class="card-body">
+        <h4 class="card-title" id="ads_title2"></h4>
+      <p class="card-text" id="ads_desc2"></p>
+    <a id="ads_id2" href="ads_id2" onclick="asd_id0" class="btn btn-success">Vai all'annuncio</a>
+    </div>
+   
+  </div>
+                        
+        <div class="card">
+      <img class="card-img-top" id="ads_img3"  alt="Card image cap">
+    <div class="card-body">
+        <h4 class="card-title" id="ads_title3"></h4>
+      <p class="card-text" id="ads_desc3"></p>
+     <a id="ads_id3" href="ads_id3" onclick="asd_id0" class="btn btn-success">Vai all'annuncio</a>
+    </div>
+   
+  </div>
+                        
+                        
+</div>
                     
-                </div>
-                <div class="col-md-4">
-                    <figure class="figure">
-  <img src="data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22400%22%20height%3D%22300%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20400%20300%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_15fddbd37ea%20text%20%7B%20fill%3Argba(255%2C255%2C255%2C.75)%3Bfont-weight%3Anormal%3Bfont-family%3AHelvetica%2C%20monospace%3Bfont-size%3A20pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_15fddbd37ea%22%3E%3Crect%20width%3D%22400%22%20height%3D%22300%22%20fill%3D%22%23777%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%22148.7734375%22%20y%3D%22159%22%3E400x300%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E" class="figure-img img-fluid rounded" alt="A generic square placeholder image with rounded corners in a figure.">
-  <figcaption class="figure-caption">A caption for the above image.</figcaption>
-</figure>
                     
-                    
-                </div>
+              
             </div>
                 
                 
             </div>
-        </div>
-        <div id="footer"></div></body>
+      
+        <div id="footer" class="margine_articoli"></div></body>
     
 </html>

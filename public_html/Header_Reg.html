@@ -9,9 +9,9 @@ and open the template in the editor.
         <title>TODO supply a title</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link href = "https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel = "stylesheet">
-      <script src = "https://code.jquery.com/jquery-1.10.2.js"></script>
-      <script src = "https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+       
+      
+      
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css">
       <link href="https://fonts.googleapis.com/css?family=Barlow+Semi+Condensed|Roboto+Slab" rel="stylesheet">
       <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
@@ -19,8 +19,8 @@ and open the template in the editor.
       <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script>
-<link href="../Css/style.css" rel="stylesheet" type="text/css"/>
-<link href="../Css/Css_Aggiuntivo.css" rel="stylesheet" type="text/css"/>
+<link href="Css/Css_Aggiuntivo.css" rel="stylesheet" type="text/css"/>
+<link href="Css/style.css" rel="stylesheet" type="text/css"/>
     </head>
     <body>
         <script>
@@ -36,38 +36,47 @@ and open the template in the editor.
 
         </script>
    <nav class="navbar navbar-light bg-dark sticky-top">
-            <a class="navbar-brand" href="index.html">
-                <img src="https://i.imgur.com/A5vcTIb.png" class="logo-header" alt=""/>
-                
-            </a> <input id="annuncio" type="button" class="btn btn-success font_sito_bottoni cartellone_2" onclick="location.href='Crea_Annuncio.html'" value="Crea Annuncio">
+       <div class="container-fluid row">
+           <div class="col-md-2">
+               <a class="navbar-brand" href="index.html">
+               
+               
+                   <img src="https://i.imgur.com/A5vcTIb.png" class="logo-header" alt=""/>
+                </a></div>
+           <div class="col-md-6">
+  <input id="annuncio" type="button" class="btn btn-success font_sito_bottoni cartellone_2" onclick="location.href='Crea_Annuncio.html'" value="Crea Annuncio">
   <img id="img_profilo" class="img_rotonda img_prof_piccola">
-  <span class="font_sito_scritte scritta_utente">Benvenuto</span>
         <span class="font_sito_scritte scritta_utente" id="nome"></span>
+        
         <div class="dropdown font_sito_bottoni">
-            <a class="btn btn-success dropdown-toggle font-weight-bold cartellone_2" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+  <button class="btn btn-success dropdown-toggle font-weight-bold cartellone_2" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
     Account
-  </a>
-
-  <div class="dropdown-menu " aria-labelledby="dropdownMenuLink">
-      <a class="dropdown-item" onclick="location.href='User.html'">Visualizza profilo</a>
-    <a class="dropdown-item" href="#">Modifica profilo</a>
+  </button>
+  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+    <a class="dropdown-item" href="user.html">Visualizza profilo</a>
+    <a class="dropdown-item" href="modifica_user.html">Modifica profilo</a>
+    <a class="dropdown-item" id="logout">Logout</a>
   </div>
 </div>
-        <input id="logout" type="button" class="btn btn-success font_sito_bottoni cartellone_2" value="Logout">
+        
+           </div>
             
+           <div class="col-md-4">
   <form class="form-inline">
     <input class="form-control  mr-sm-2" type="search" placeholder="Search" aria-label="Search">
     <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Ricerca</button>
      <select class="form-control ml-sm-2" id="inline" name="filtro">
                                     <!-- INSERIRE DROPDOWN -->
-                                    <option selected value='tutto'>Categorie</option>                                    
-                                    <option>Libri</option>
+                                                                       
+                                    <option selected value='tutto'>Libri</option>
                                     <option>Appunti</option>
                                     <option>Stage/Lavoro</option>
                                     <option>Ripetizione</option>                                    
                                     <option>Eventi</option>
                                 </select>
   </form>
+           </div>
+       </div>
 </nav>
     </body>
 </html>

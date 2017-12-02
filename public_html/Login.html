@@ -22,7 +22,7 @@ and open the template in the editor.
             $("#submit").click(function(){
       var email=$("#email").val();
       var pass=$("#password").val();
-      $.post("https://messageinabot.herokuapp.com/login",{email:email,password:pass},function(data){
+      $.post("https://messageinabot.herokuapp.com/users/login",{email:email,password:pass},function(data){
         if(data.success){
           document.cookie="token="+data.token;
          location.href='index.html';
@@ -37,7 +37,7 @@ and open the template in the editor.
         </script>
         <div class="bg-gray">
             <center><a href="index.html">
-                   <img class="margine_articoli_piccoli" src="https://i.imgur.com/A5vcTIb.png"  alt=""/>
+                   <img class="margine_articoli_piccoli" src="https://i.imgur.com/XjoERkn.png"  alt=""/>
   </a></center>
             <div class="container bg-dark rounded border border-secondary margine_form">
                  <div class="row align-self-center">

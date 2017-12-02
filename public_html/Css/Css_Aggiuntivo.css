@@ -8,6 +8,18 @@ and open the template in the editor.
     Author     : Davide Uni
 */
 
+body{
+    background-image: url('https://www.mantovasitiweb.it/images/slider2.jpg');
+}
+
+body.container{
+    background-image: url('https://www.mantovasitiweb.it/images/slider2.jpg');
+}
+
+body.container-fluid{
+    background-image: url('https://www.mantovasitiweb.it/images/slider2.jpg');
+}
+
 #bg-primary{
     background-color: #bfbfbf;
     margin-right: 5%;
@@ -71,6 +83,11 @@ body{
     display:inline;
 }
 
+.inline{
+
+    display:inline;
+
+}
 .font_sito_bottoni{
     color: white;
     font-family: 'Barlow Semi Condensed', sans-serif;
@@ -86,21 +103,28 @@ body{
     font-family: 'Roboto Slab', serif;
 }
 
-@media(min-width: 992px){
+@media(min-width: 1920px){
 .cartellone{
     width:400px;
 }
 }
 
-@media(max-width: 576px){
+@media(max-width: 1920px){
 .cartellone{
-    width:200px;
+    width:400px;
 }
 }
 
+@media(max-width: 1500px){
+.cartellone{
+    width:150px;
+}
+}
+
+
 @media(max-width: 480px){
 .cartellone{
-    width:200px;
+    width:100px;
 }
 }
 
@@ -114,13 +138,27 @@ body{
     margin-top: 10%;
 }
 
+@media(min-width: 720px){
 .scritta_utente{
    font-size: 32px;
 }
-
+}
+@media(min-width: 720px){
 .scritta_utente2{
    font-size: 16px;
 }
+}
+@media(min-width: 480px){
+.scritta_utente{
+   font-size: 24px;
+}
+}
+@media(min-width: 720px){
+.scritta_utente2{
+   font-size: 10px;
+}
+}
+
 
 .img_prof_piccola{
     width:50px;
@@ -128,7 +166,7 @@ body{
 }
 
 .scritta_utente_form{
-   font-size: 26px;
+   font-size: 40px;
 }
 
 .form_spaziatura{
@@ -188,6 +226,14 @@ scatola_immagine_principale{
     height: 30px;
 }
 
+nav{
+    box-shadow: 0px 3px 4px #888888;
+}
+
+ombreggiatura_footer{
+    box-shadow: 0px -10px 4px #888888;
+}
+
 div figure img{
   box-shadow: 0px 0px 5px #888888;
 }
@@ -201,6 +247,49 @@ div.jumbotron{
     max-height: 350px;
 }
 
-nav span{
-    padding: -50px;
+nav div{
+    display:inline;
+    
+}
+
+nav img{
+    margin: 10px;
+}
+
+nav.btn-success{
+   margin: 100px;
+}
+
+nav span {
+    margin: 20px;
+}
+
+
+.anteprima_img{
+   max-width:300px;
+    max-height:200px;
+}
+    
+form label{
+    color:#009900;
+
+}
+
+div.card-img-top{
+    max-width:300px;
+    max-height:100px;
+}
+
+div.card h4{
+    color: black;
+    font-family: 'Barlow Semi Condensed', serif;
+}
+
+div.card p{
+    font-family: 'Roboto Slab', serif;
+}
+
+#utente_img{
+    max-width: 100px;
+    max-height: 100px;
 }
