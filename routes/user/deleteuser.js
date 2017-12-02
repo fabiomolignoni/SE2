@@ -17,13 +17,16 @@ var deleteUser = function (req, res, next) {
         console.log(err)
         return res.status(403).send({ success: false, log: 'Authentication error' })
       } else {
-        Utente.remove({_id: req.params.id}, function (err) {
+        if (decoded.id !== req.params.id) {
+          return res.status(403).send({ success: false, log: 'You can modify only your data' })
+        }
+        Utente.remove({_id: decoded.id}, function (err) {
           if (err) {
             console.log(err)
             return res.status(500).send({success: false, log: 'impossible to delete user'})
           }
         })
-        Annuncio.remove({author: req.params.id}, function (err) {
+        Annuncio.remove({author: decoded.id}, function (err) {
           if (err) {
             console.log(err)
             return res.status(500).send({success: false, log: 'impossible to delete user'})
