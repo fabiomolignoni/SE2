@@ -49,12 +49,12 @@ var createad = function (req, res) {
               }
               annuncio.images = images
               // save the ad in the DB
-              annuncio.save(function (err) {
+              annuncio.save(function (err, ad) {
                 if (err) {
                   console.log(err)
                   return res.status(500).send({success: false, log: 'Unable to save the ad'})
                 } else {
-                  return res.status(200).send({success: true, log: 'Ad saved correctly'})
+                  return res.status(200).send({success: true, log: 'Ad saved correctly', id: ad._id})
                 }
               })
             }
