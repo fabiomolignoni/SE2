@@ -49,9 +49,6 @@ function controllo_form(){
     return true;
 }
 
-function doRedirect() {
-    
-    location.href = "..\index.html";
-  }
+
   
   

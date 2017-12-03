@@ -10,16 +10,16 @@ and open the template in the editor.
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link href = "https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel = "stylesheet">
-      <script src = "https://code.jquery.com/jquery-1.10.2.js"></script>
-      <script src = "https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+      
+     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css">
       <link href="https://fonts.googleapis.com/css?family=Barlow+Semi+Condensed|Roboto+Slab" rel="stylesheet">
       
-      <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+     
       <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script>
-<link href="../Css/style.css" rel="stylesheet" type="text/css"/>
-<link href="../Css/Css_Aggiuntivo.css" rel="stylesheet" type="text/css"/>
+<link href="Css/style.css" rel="stylesheet" type="text/css"/>
+<link href="Css/Css_Aggiuntivo.css" rel="stylesheet" type="text/css"/>
     </head>
     <body>
         <nav class="navbar navbar-light bg-dark sticky-top">
@@ -29,16 +29,15 @@ and open the template in the editor.
             <button class="btn btn-success font-weight-bold cartellone"  onclick="location.href='Registrazione.html'" type="button"> <span class="font_sito_bottoni">Registrati</span> </button>
             <button class="btn btn-success font-weight-bold cartellone"  onclick="location.href='Login.html'" type="button"> <span class="font_sito_bottoni">Accedi</span> </button>
   <form class="form-inline">
-    <input class="form-control  mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+    <input class="form-control  mr-sm-2" type="search" placeholder="Cerca il tuo annuncio..." aria-label="Search">
     <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Ricerca</button>
-     <select class="form-control ml-sm-2" id="inline" name="filtro">
+     <select class="form-control ml-sm-2"  name="filtro">
                                     <!-- INSERIRE DROPDOWN -->
-                                    <option selected value='tutto'>Categorie</option>                                    
-                                    <option>Libri</option>
-                                    <option>Appunti</option>
-                                    <option>Stage/Lavoro</option>
-                                    <option>Ripetizione</option>                                    
-                                    <option>Eventi</option>
+                                    <option selected value='libri'>Libri</option>
+                                    <option value='appunti'>Appunti</option>
+                                    <option value='stage/Lavoro'>Stage/Lavoro</option>   
+                                    <option value='ripetizione'>Ripetizione</option>                                    
+                                    <option value='eventi'>Eventi</option>
                                 </select>
   </form>
 </nav>
