@@ -51,14 +51,14 @@
             cache: false,
             timeout: 600000,
             success: function (data){
-                console.log(data);
+                
              if(data.success){
           document.getElementById("alert").style.display = 'none';
           document.getElementById("success").style.display = 'block';
           document.getElementById("success").innerHTML = "Congratulazioni, annuncio creato con successo!";
-         /*window.setTimeout(function(){
+          window.setTimeout(function(){
            location.href = "Annuncio.html?id="+ data.id;
-          }, 8000);*/
+          }, 5000);
           
         }else{
             
