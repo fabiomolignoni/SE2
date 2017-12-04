@@ -86,22 +86,22 @@ var ResponseHandler = function() {
     });
     
      
-      $.get("https://messageinabot.herokuapp.com/ads/",{},function(data){
+      $.get("https://messageinabot.herokuapp.com/ads?fromLast=true",{},function(data){
       if(data.success){
-          var lung = data.ads.length;
+         
           var url = new Array();
           for(i = 0; i<6;i++){
-           document.getElementById("ads_img"+i).src = data.ads[lung-1].images[0];
-           document.getElementById("ads_title"+i).innerHTML = data.ads[lung-1].title;
-           document.getElementById("ads_desc"+i).innerHTML = data.ads[lung-1].desc;
+           document.getElementById("ads_img"+i).src = data.ads[i].images[0];
+           document.getElementById("ads_title"+i).innerHTML = data.ads[i].title;
+           document.getElementById("ads_desc"+i).innerHTML = data.ads[i].desc;
            
          
            var tmp = document.getElementById("ads_id"+i);
-           tmp.value = "Annuncio.html?id="+ data.ads[lung-1].id;
+           tmp.value = "Annuncio.html?id="+ data.ads[i].id;
            url[i] = tmp.value;
            
 document.getElementById("ads_id"+i).setAttribute("href",url[i]);
-lung--;
+
             }
        
       }
@@ -110,64 +110,29 @@ lung--;
       }
     });
    
-   var filtros = document.getElementById("filtro").value;
    
-   var req1 = new XMLHttpRequest();
-  req1.open('GET', "https://messageinabot.herokuapp.com/ads?category="+filtros);
-  req1.onreadystatechange = ResponseHandler;
-  req1.send(); 
    
    $("#ricerca").click(function(){
-       jQuery.get("https://messageinabot.herokuapp.com/ads?category="+filtros,{},function(data){
-      
-        
-        var url = new Array();
-          for(i = 0; i<6;i++){
-           document.getElementById("ads_img"+i).src = data.ads[i].images[0];
-           document.getElementById("ads_title"+i).innerHTML = data.ads[i].title;
-           document.getElementById("ads_desc"+i).innerHTML = data.ads[i].desc;
-           
-         
-           var tmp = document.getElementById("ads_id"+i);
-           tmp.value = "Annuncio.html?id="+ data.ads[i].id;
-           url[i] = tmp.value;
-           
-document.getElementById("ads_id"+i).setAttribute("href",url[i]);
+       var filtros = document.getElementById("filtro").value;
+   var query = document.getElementById("query").value;
+   if(query == null && filtros == "tutte le categorie"){
+        var url = "Ricerca.html?offset=0";
+   }
+   if(query == " " && filtros != null){
+            var url = "Ricerca.html?offset=0&category="+filtros;
+       }
+       
+        if(query != " " && filtros == "tutte le categorie"){
+            var url = "Ricerca.html?offset=0&q="+query;
+       }
+       
+       if(query != " " && filtros != "tutte le categorie"){
+           var url = "Ricerca.html?offset=0&q="+query+"&category="+filtros;
+       }
+   
   
-      }
-    });
-    
-      /*$.ajax({
-            type: "GET",
-            enctype: 'multipart/form-data',
-            url: "https://messageinabot.herokuapp.com/ads",
-            data: jform,
-           
-            processData: false,
-            contentType: false,
-            cache: false,
-            timeout: 600000,
-            success: function (data){
-                
-                
-             var url = new Array();
-          for(i = 0; i<6;i++){
-           document.getElementById("ads_img"+i).src = data.ads[i].images[0];
-           document.getElementById("ads_title"+i).innerHTML = data.ads[i].title;
-           document.getElementById("ads_desc"+i).innerHTML = data.ads[i].desc;
-           
-         
-           var tmp = document.getElementById("ads_id"+i);
-           tmp.value = "Annuncio.html?id="+ data.ads[i].id;
-           url[i] = tmp.value;
-           
-document.getElementById("ads_id"+i).setAttribute("href",url[i]);
-  }
-     }
- });*/
-      
-  
-  });
+   document.getElementById("ricerca").setAttribute("href",url);
+ });
    
   }); 
   
@@ -206,11 +171,13 @@ document.getElementById("ads_id"+i).setAttribute("href",url[i]);
                                     <option value='stage/Lavoro'>Stage/Lavoro</option>   
                                     <option value='ripetizione'>Ripetizione</option>                                    
                                     <option value='eventi'>Eventi</option>
+                                    <option value='tutte le categorie'>Tutte le categorie</option>
+                                    
                                 </select>
                               
                             <!-- search box -->
-                            <input class="form-control navbar-light pannello-ricerca col-md-8 col-sm-6"  type="text" name="ricerca">
-                            <input  class="btn btn-success col-md-1 col-xs-1" type="button" id="ricerca" value="Ricerca">
+                            <input class="form-control navbar-light pannello-ricerca col-md-8 col-sm-6" id="query" type="text" name="ricerca">
+                            <a class="btn btn-success col-md-1 col-xs-1" id="ricerca">Ricerca</a>
                             
                                 
                            

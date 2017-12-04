@@ -22,6 +22,37 @@ and open the template in the editor.
 <link href="Css/Css_Aggiuntivo.css" rel="stylesheet" type="text/css"/>
     </head>
     <body>
+        <script>
+            
+            
+             $(document).ready(function(){
+            $("#ricerca1").click(function(){
+       var filtros = document.getElementById("filtro1").value;
+   var query = document.getElementById("query1").value;
+   if(query == null && filtros == "tutte le categorie"){
+        var url = "Ricerca.html?offset=0";
+   }
+   if(query == " " && filtros != null){
+            var url = "Ricerca.html?offset=0&category="+filtros;
+       }
+       
+        if(query != " " && filtros == "tutte le categorie"){
+            var url = "Ricerca.html?offset=0&q="+query;
+       }
+       
+       if(query != " " && filtros != "tutte le categorie"){
+           var url = "Ricerca.html?offset=0&q="+query+"&category="+filtros;
+       }
+   
+  
+   document.getElementById("ricerca1").setAttribute("href",url);
+ });
+ });
+        </script>
+        
+        
+        
+        
         <nav class="navbar navbar-light bg-dark sticky-top">
             <a class="navbar-brand" href="index.html">
                 <img src="https://i.imgur.com/A5vcTIb.png" class="logo-header" alt=""/>
@@ -29,15 +60,16 @@ and open the template in the editor.
             <button class="btn btn-success font-weight-bold cartellone"  onclick="location.href='Registrazione.html'" type="button"> <span class="font_sito_bottoni">Registrati</span> </button>
             <button class="btn btn-success font-weight-bold cartellone"  onclick="location.href='Login.html'" type="button"> <span class="font_sito_bottoni">Accedi</span> </button>
   <form class="form-inline">
-    <input class="form-control  mr-sm-2" type="search" placeholder="Cerca il tuo annuncio..." aria-label="Search">
-    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Ricerca</button>
-     <select class="form-control ml-sm-2"  name="filtro">
+      <input class="form-control  mr-sm-2" type="search" placeholder="Cerca il tuo annuncio..." id="query1" aria-label="Search">
+    <a class="btn btn-outline-success my-2 my-sm-0" id="ricerca1">Ricerca</a>
+    <select class="form-control ml-sm-2" id="filtro1"  name="filtro">
                                     <!-- INSERIRE DROPDOWN -->
                                     <option selected value='libri'>Libri</option>
                                     <option value='appunti'>Appunti</option>
                                     <option value='stage/Lavoro'>Stage/Lavoro</option>   
                                     <option value='ripetizione'>Ripetizione</option>                                    
                                     <option value='eventi'>Eventi</option>
+                                    <option value='tutte le categorie'>Tutte le categorie</option>
                                 </select>
   </form>
 </nav>

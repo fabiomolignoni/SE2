@@ -32,6 +32,31 @@ and open the template in the editor.
   $("#logout").click(function(){
       deleteCookie('token');
   });
+  
+  
+   $(document).ready(function(){
+  $("#ricerca2").click(function(){
+       var filtros = document.getElementById("filtro2").value;
+   var query = document.getElementById("query2").value;
+   if(query == null && filtros == "tutte le categorie"){
+        var url = "Ricerca.html?offset=0";
+   }
+   if(query == " " && filtros != null){
+            var url = "Ricerca.html?offset=0&category="+filtros;
+       }
+       
+        if(query != " " && filtros == "tutte le categorie"){
+            var url = "Ricerca.html?offset=0&q="+query;
+       }
+       
+       if(query != " " && filtros != "tutte le categorie"){
+           var url = "Ricerca.html?offset=0&q="+query+"&category="+filtros;
+       }
+   
+  
+   document.getElementById("ricerca2").setAttribute("href",url);
+ });
+ });
 
         </script>
    <nav class="navbar navbar-light bg-dark sticky-top">
@@ -62,9 +87,9 @@ and open the template in the editor.
             
            <div class="col-md-4">
   <form class="form-inline">
-    <input class="form-control  mr-sm-2" type="search" placeholder="Cerca il tuo annuncio..." aria-label="Search">
-    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Ricerca</button>
-     <select class="form-control ml-sm-2" name="filtro">
+      <input class="form-control  mr-sm-2" type="search" placeholder="Cerca il tuo annuncio..." id="query2" aria-label="Search">
+    <a class="btn btn-outline-success my-2 my-sm-0" id="ricerca2">Ricerca</a>
+    <select class="form-control ml-sm-2" id="filtro2" name="filtro">
                                     <!-- INSERIRE DROPDOWN -->
                                                                        
                                     <option selected value='libri'>Libri</option>
@@ -72,6 +97,7 @@ and open the template in the editor.
                                     <option value='stage/Lavoro'>Stage/Lavoro</option>   
                                     <option value='ripetizione'>Ripetizione</option>                                    
                                     <option value='eventi'>Eventi</option>
+                                    <option value='tutte le categorie'>Tutte le categorie</option>
                                 </select>
   </form>
            </div>

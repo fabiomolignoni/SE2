@@ -399,3 +399,7 @@ form.barra-ricerca select{
     text-decoration: none;
     cursor: pointer;
 }
+
+a{
+    color:white;
+}
