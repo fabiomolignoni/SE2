@@ -19,12 +19,12 @@ var signup = function (req, res) {
   form.parse(req, function (err, fields, files) {
     if (err) {
       console.log(err)
-      return res.json({success: 'false', log: 'error parsing multipart'})
+      return res.status(400).send({success: 'false', log: 'error parsing multipart'})
     }
     // if some fundamental parameters (name, surname email, password) are missing
     // or if the email address is invalid  success = false
     if (!uservalid.verifyParameters(fields.name, fields.surname, fields.email, fields.password)) {
-      return res.json({success: false, log: 'You must specify a valid name, surname, email and password'})
+      return res.status(403).send({success: false, log: 'You must specify a valid name, surname, email and password'})
     } else {
       // create the user
       var utente = new Utente()
@@ -50,9 +50,9 @@ var signup = function (req, res) {
       utente.save(function (err) {
         if (err) {
           console.log(err)
-          return res.json({success: false, log: 'Unable to save user'})
+          return res.status(500).send({success: false, log: 'Unable to save user'})
         } else {
-          return res.json({success: true, log: 'User saved correctly'})
+          return res.status(200).send({success: true, log: 'User saved correctly'})
         }
       })
     }

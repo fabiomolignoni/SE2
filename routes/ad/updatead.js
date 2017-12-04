@@ -79,7 +79,7 @@ var updatead = function (req, res) {
                   if (err) {
                     console.log(err)
                     return res.status(500).send({success: false, log: 'impossible to update ad'})
-                  } else {
+                  } else { // if there is not an error the ad exists (see previous findOne)
                     return res.status(200).send({success: true, log: 'ad updated correctly'})
                   }
                 })

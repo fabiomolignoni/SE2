@@ -15,10 +15,10 @@ var login = function (req, res) {
     email: req.body.email
   }, function (err, user) {
     if (err) { // findOne error
-      return res.json({success: false, log: 'Error while searching for the user'})
+      return res.status(500).send({success: false, log: 'Error while searching for the user'})
     }
     if (!user) { // User is not in the DB
-      return res.json({ success: false, message: 'User not found' })
+      return res.status(403).send({ success: false, message: 'User not found' })
     } else if (user) {
       if (!req.body.password || !bcrypt.compareSync(req.body.password, user.password)) { // verify password
         return res.json({ success: false, message: 'wrong password' })
@@ -30,7 +30,7 @@ var login = function (req, res) {
           expiresIn: '2h' // expires in 2 hours
         })
         // return the information including token as JSON
-        return res.json({
+        return res.status(200).send({
           success: true,
           token: token
         })

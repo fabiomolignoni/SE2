@@ -29,7 +29,7 @@ var createad = function (req, res) {
             return res.status(403).send({ success: false, log: 'Authentication error' })
           } else {
             if (!fields || !advalid.verifyParameters(fields.title, fields.desc, fields.price, fields.category)) {
-              return res.status(400).send({success: false, log: 'You must specify a valid title, desc, price and category'})
+              return res.status(403).send({success: false, log: 'You must specify a valid title, desc, price and category'})
             } else {
               // create the ad
               var annuncio = new Annuncio()

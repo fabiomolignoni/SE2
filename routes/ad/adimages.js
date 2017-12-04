@@ -3,7 +3,6 @@
 // =======================
 const Annuncio = require('../../models/Annuncio.js')
 const fs = require('file-system')
-var advalid = require('../../modules/advalidation.js')
 
 // =======================
 // GET /ad/<id>?index=val
@@ -23,7 +22,7 @@ var adimages = function (req, res) {
     if (!ad) {
       return res.status(403).end('no ad found')
     } else if (ad) {
-      if (ad.images[index]) {
+      if (ad.images[index] && ad.images[index].contentType && ad.images[index].data) {
         res.contentType(ad.images[index].contentType)
         res.send(ad.images[index].data)
       } else {
