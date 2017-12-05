@@ -1,33 +1,30 @@
-const Telegraf = require('telegraf');
-const bot = new Telegraf('464793317:AAHgXUyAbg3ZRSE12i6YrwxAKgIl4fu-1R4');
+////////////
+// MODULI //
+////////////
 
+//Operazioni API
+const api = require('./api_actions');
+
+//Richieste HTTP
+const axios = require('axios');
+
+//Bot di Telegram
+const Telegraf = require('telegraf');
+const bot = new Telegraf('492970626:AAEa0HmNUlV82sPYN1LY5QRSXjay2xjVcTE');
+
+//Markup bot
 const { Markup } = require('telegraf');
 
 
-//Cerca e restituisce 3 annunci secondo i parametri richiesti
-function searchAds(ctx) {
-        
-    const text = 'Che cosa stai cercando?';
-    ctx.reply(text, 
-                    Markup.inlineKeyboard([
-                        Markup.callbackButton('Libri', 'books'),
-                        Markup.callbackButton('Appunti', 'notes'),
-                        Markup.callbackButton('Stage/Lavoro', 'jobs'),
-                        Markup.callbackButton('Ripetizioni', 'lessons'),
-                        Markup.callbackButton('Eventi', 'events')
-                        ]).extra()
-                    );
-    
-    /*
-    reply('Ho trovato questi annunci:');
-    //Annunci
-    reply('/continua per vedere ulteriori annunci.');
-    */
-}
 
+//////////
+// MAIN //
+//////////
 
 //Gestisce i comandi del bot
 function launchbot(){
+    console.log('Bot avviato');
+    
     //Visualizza i comandi disponibili
     bot.command('/help', ({ reply }) => reply('/help - Visualizza i comandi disponibili\n' +
                                               '/cerca - Cerca un annuncio\n' +
@@ -36,49 +33,19 @@ function launchbot(){
                                               '/sito - Apri il sito web di MessageInABOT'));
     
     //Cerca un annuncio
-    bot.command('/cerca', ctx => searchAds(ctx));
+    bot.command('/cerca', ctx => api.searchAds(bot, ctx));
+    
+    //Cerca un autore
+    bot.command('/contatta', ctx => api.searchUsers(bot, ctx));
     
     //Apre il sito web di MessageInABOT
     bot.command('/sito', ({ reply }) => reply('Clicca sul link per accedere al sito!\n https://fabiomolignoni.github.io/SE2/'));
-    
-    
-    //Ricerca per categoria
-    bot.on('callback_query', ctx => {
-   
-        //Salvo il messaggio ricevuto e il suo mittente
-        const category = ctx.update.callback_query.data;
-        const userId = ctx.update.callback_query.from.id;
-
-        ctx.answerCbQuery('Attendi...');
-        ctx.reply('Hai scelto la categoria ' + category);    
-        ctx.reply('Inserisci il prezzo massimo (0 per articoli gratis).');
         
-        bot.on('text', ctx => {
-            
-            const text = ctx.message.text;
-            
-            try {
-                price = parseFloat(text);
-            } catch (err) {
-                console.log(err);
-            }
-            
-            if (isNaN(price)) {
-                ctx.reply('Inserisci un valore numerico.');
-            } else {
-                console.log('Prezzo massimo: ' + price);
-            }
-            
-        });
-
-        //Richiedo 3 annunci della categoria richiesta
-        //...    
-    
-    });
-    
+    //Mette il bot in ascolto
     bot.startPolling();
 }
 
 module.exports.launchbot = launchbot;
 
+//UTILIZZARE PER DEBUG
 launchbot();
