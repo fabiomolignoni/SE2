@@ -16,9 +16,6 @@ var deletead = function (req, res) {
         console.log(err)
         return res.status(403).send({ success: false, log: 'Authentication error' })
       } else {
-        if (decoded.id !== req.params.id) {
-          return res.status(403).send({ success: false, log: 'You can modify only your data' })
-        }
         Annuncio.remove({_id: req.params.id, author: decoded.id}, function (err) {
           if (err) {
             console.log(err)
