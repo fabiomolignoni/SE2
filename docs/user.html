@@ -1,44 +1,250 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
 <html>
-  <head>
-    <title>Articolo</title>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<head>
+  <title>MessageInABOT</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="Css/Css_Aggiuntivo.css" rel="stylesheet" type="text/css"/>
+  <link href="Css/style.css" rel="stylesheet" type="text/css"/>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.6/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script>
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" crossorigin="anonymous">
-     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="ListaUtenti.css">
-    <script src="//code.jquery.com/jquery-1.10.2.js"></script> 
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  <script> $(function(){
+    $("#header_not_registered").load("Header_Not_Reg.html");
+    $("#header_registered").load("Header_Reg.html");
+    $("#footer").load("Footer.html"); });
+    </script>
   </head>
-  <body>
-    <center>
-        <div class="container">
-            <div class="container-fluid">
-                <img id="img_rotonda" src="..."/>
-            </div>
-            <div>
-                <label id="lb_Nome">
-                    Nome Cognome
-                </label>
-            </div>
-            
-        </div>
-        <div>
-            <ul id="lista_utenti">
-                <div>
-                    <a>Nome Cognome</a>
-                    <button type="button" class="btn btn-success" id="btn_modifica">Modifica</button>
-                    <button type="button" class="btn btn-danger" id="btn_elimina">Elimina</button>
-                </div>
-            </ul>
-            <label>
+  <body><script>
+  function doLogout(){
+    deleteCookie('token');
+  };
 
-            </label>
+  function getCookie(name)
+  {
+    var re = new RegExp(name + "=([^;]+)");
+    var value = re.exec(document.cookie);
+    return (value != null) ? unescape(value[1]) : null;
+  };
+
+  function doLogout(){
+    deleteCookie('token');
+    window.setTimeout(function(){
+           location.href = "index.html";
+          }, 3000);
+  };
+  //Carica gli header a seconda della situazione
+  var myResponseHandler = function() {
+    if (this.readyState == 3 && this.status == 403) {
+
+      document.getElementById("header_not_registered").style.display = 'block';
+      document.getElementById("page_not_registered").style.display = 'block';
+    }
+  };
+  var id = 0;
+  var deleteAd = function(button){
+    $.ajax({
+      type: "DELETE",
+      url: "https://messageinabot.herokuapp.com/ads/"+button.value+"?token="+getCookie('token'),
+      data: {},
+      processData: false,
+      contentType: false,
+      cache: false,
+      timeout: 600000,
+      success: function (data){
+        if(data.success){
+         
+          location.href = "user.html";  
+        }
+      }
+    });
+  }
+  var setAdsPage = function (page){
+    jQuery.get("https://messageinabot.herokuapp.com/ads?user="+id+"&offset="+(page-1)*3+"&limit="+3+"&fromLast=true",{},function(data){
+      if(data.success){
+        for(let i = 0; i<3; i++){
+          if(data.ads[i] != null){
+            document.getElementById("ad-"+i).style.display = 'block';
+            document.getElementById("ad-img-"+i).src = data.ads[i].images[0];
+            document.getElementById("ad-title-"+i).innerHTML = data.ads[i].title;
+            document.getElementById("visualizza-"+i).setAttribute("href",'Annuncio.html?id='+data.ads[i].id);
+            document.getElementById("modifica-"+i).setAttribute("href",'Modifica_Annuncio.html?id='+data.ads[i].id);
+            document.getElementById("elimina-"+i).value = data.ads[i].id;
+          } else {
+            document.getElementById("ad-"+i).style.display = 'none';
+          }
+        }
+      }
+    });
+  }
+
+  $(document).ready(function(){
+
+    document.getElementById("header_not_registered").style.display = 'none';
+    document.getElementById("header_registered").style.display = 'none';
+    document.getElementById("page_registered").style.display = 'none';
+    document.getElementById("page_not_registered").style.display = 'none';
+
+    var req = new XMLHttpRequest();
+    req.open('GET', "https://messageinabot.herokuapp.com/users?token="+getCookie('token'));
+    req.onreadystatechange = myResponseHandler;
+    req.send();
+
+    $.get("https://messageinabot.herokuapp.com/users?token="+getCookie('token'),{},function(data){
+      if(data.success){
+
+        document.getElementById("header_registered").style.display = 'block';
+        document.getElementById("page_registered").style.display = 'block';
+        document.getElementById("nome").innerHTML = "Benvenuto" + " " + data.name;
+        document.getElementById("generalita").innerHTML = data.name+" "+ data.surname;
+        document.getElementById("img_profilo").src = data.image;
+        document.getElementById("avatarPage").style.backgroundImage = "url('"+data.image+"')";
+        document.getElementById("modificaAccount").setAttribute("href",'modifica_user.html?id='+data.id);
+        id = data.id;
+        jQuery.get("https://messageinabot.herokuapp.com/ads?user="+data.id,{},function(data){
+          if(data.success){
+            var url = new Array();
+            var offset_url = new Array();
+            var length = data.ads.length;
+            var pag = Math.ceil(length /3.0);
+            var lista = document.getElementById("choose-page");
+            for (let i = 1; i<= pag; i++){
+              var actualNum = document.createElement("LI");
+              actualNum.innerHTML = '<a class="page-link" id="'+i+'page'+'" href="javascript:setAdsPage('+i+')">'+i+'</a>';
+              actualNum.className = 'page-item';
+              lista.appendChild(actualNum);
+            }
+            setAdsPage(1);
+          }
+        });
+      }
+    });
+    $("#removeUser").click(function(){
+      $.ajax({
+        type: "DELETE",
+        url: "https://messageinabot.herokuapp.com/users/"+id+"?token="+getCookie('token'),
+        data: {},
+        processData: false,
+        contentType: false,
+        cache: false,
+        timeout: 600000,
+        success: function (data){
+          if(data.success){
+            doLogout();
+            
+          
+          }
+        }
+      });
+    });
+  });
+</script>
+<div id="header_not_registered"></div>
+<div id="header_registered"></div>
+<br><br>
+<div id="page_not_registered">
+  <div class="col-md-5 col-centered">
+    <h3>Mi dispiace, deve effettuare l'accesso per visualizzare questa pagina</h3>
+  </div>
+</div>
+<div id="page_registered">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-3 col-centered">
+        <div class="circle-avatar" id="avatarPage"></div><br>
+        <h3 class="text-center" id="generalita"></h3>
+        <a id="modificaAccount" class="btn btn-info btn-block">
+          Modifica account
+        </a>
+        <button id="removeUser" type="button" class="btn btn-danger btn-block">
+    Elimina account
+  </button>
+
+      </div>
+    </div>
+    <br><br>
+    <div class="row"><div class="card-deck">
+      <div class="col-md-offset-1 col-md-4">
+        
+          <div class="card" id="ad-0">
+            <img class="card-img-top" id="ad-img-0" src="..." alt="img1">
+            <div class="card-body">
+              <h4 class="card-title" id="ad-title-0"></h4>
+            </div>
+            <div class="card-footer">
+              <a id="visualizza-0" class="btn btn-success btn-block">
+                Visualizza annuncio
+              </a>
+              <a id="modifica-0" class="btn btn-info btn-block">
+                Modifica annuncio
+              </a>
+              <a id="elimina-0" class="btn btn-danger btn-block"  onclick='deleteAd(this)'>
+                Elimina annuncio
+              </a>
+            </div>
+          </div>
         </div>
-    </center>
-  </body>
-</html>
+      
+      <div class="col-md-4">
+        
+          <div class="card" id="ad-1">
+            <img class="card-img-top" id="ad-img-1" src="..." alt="img1">
+            <div class="card-body">
+              <h4 class="card-title" id="ad-title-1"></h4>
+            </div>
+            <div class="card-footer">
+              <a id="visualizza-1" class="btn btn-success btn-block">
+                Visualizza annuncio
+              </a>
+              <a id="modifica-1" class="btn btn-info btn-block">
+                Modifica annuncio
+              </a>
+              <a id="elimina-1" class="btn btn-danger btn-block"  onclick='deleteAd(this)'>
+                Elimina annuncio
+              </a>
+            </div>
+          </div>
+        
+      </div>
+      <div class="col-md-4">
+        
+          <div class="card" id="ad-2">
+            <img class="card-img-top" id="ad-img-2" src="..." alt="img1">
+            <div class="card-body">
+              <h4 class="card-title" id="ad-title-2"></h4>
+            </div>
+            <div class="card-footer">
+              <a id="visualizza-2" class="btn btn-success btn-block">
+                Visualizza annuncio
+              </a>
+              <a id="modifica-2" class="btn btn-info btn-block">
+                Modifica annuncio
+              </a>
+              <a id="elimina-2" class="btn btn-danger btn-block" onclick='deleteAd(this)'>
+                Elimina annuncio
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6 col-centered">
+        <div class="row margine_articoli_piccoli justify-content-center" aria-label="Page navigation example">
+          <ul class="pagination col-centered" id="choose-page">
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="footer" class="margine_articoli"></div>
+</body>
+
+  </html>
