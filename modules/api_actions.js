@@ -36,6 +36,8 @@ function getAds(bot, ctx, url) {
         
         if(!ads) {
             return ctx.reply('Errore.');
+        } else if (ads.length == 0) {
+            return ctx.reply('Spiacente, nessun annuncio trovato.');
         }
         
         for (var i = 0; i < ads.length; i++) {
@@ -128,7 +130,22 @@ function searchAds(bot, ctx) {
         if (!ctx.update.callback_query) {
             return ctx.reply('Premi uno dei pulsanti.');
         }
-        category = (ctx.update.callback_query.data == 'tutto') ? '' : ctx.update.callback_query.data;
+        
+        switch (ctx.update.callback_query.data) {
+            case 'tutto':
+                category = '';
+                break;
+            case 'libri':
+            case 'appunti':
+            case 'stage/lavoro':
+            case 'ripetizioni':
+            case 'eventi':
+                category = ctx.update.callback_query.data;
+                break;
+            default:
+                return ctx.reply('Premi uno dei pulsanti.');
+        }
+        
         console.log('Categoria: ' + category);
         ctx.reply('Hai scelto la categoria ' + category);
         
