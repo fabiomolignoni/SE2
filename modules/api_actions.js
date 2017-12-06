@@ -40,9 +40,9 @@ function getAds(bot, ctx, url) {
             return ctx.reply('Spiacente, nessun annuncio trovato.');
         }
         
-        for (var i = 0; i < ads.length; i++) {
-            var ad = ads[i];
-
+        
+        const i = 0; //Provvisiorio        
+        ads.forEach(function (ad) {
             console.log('Trovato ' + i + ': \'' + ad.title + '\'');
 
             //Ricavo le informazioni sull'autore
@@ -62,7 +62,7 @@ function getAds(bot, ctx, url) {
             .catch(function (err) {
                 console.log(err);
             });
-        }
+        });
         
     })/*
     .then(function () {
@@ -211,7 +211,7 @@ function searchAds(bot, ctx) {
                                           (ctx) => {
         console.log('search 1');
         const url = `${site}/ads/?q=${q}&title=${title}&category=${category}&lessThan=${lessThan}&limit=${limit}&offset=${offset}&fromLast=${fromLast}&user=${user}`;
-        console.log(url);
+        console.log('Richiesta a ' + url);
         getAds(bot, ctx, url);
         
         ctx.flow.leave();
