@@ -32,16 +32,16 @@ function getAds(bot, ctx, url) {
     .then(function (response) {
         //console.log(response);
         var ads = response.data.ads;
+        console.log(ads);
         
         if(!ads) {
             return ctx.reply('Errore.');
         }
-
-        //Itero sugli annunci trovati
+        
         for (var i = 0; i < ads.length; i++) {
             var ad = ads[i];
 
-            console.log('Trovato \'' + ad.title + '\'');
+            console.log('Trovato ' + i + ': \'' + ad.title + '\'');
 
             //Ricavo le informazioni sull'autore
             var author = axios.get(ad.author)
@@ -60,8 +60,8 @@ function getAds(bot, ctx, url) {
             .catch(function (err) {
                 console.log(err);
             });
-
         }
+        
     })/*
     .then(function () {
         ctx.reply('/continua per vedere altri annunci');
@@ -92,6 +92,7 @@ function searchAds(bot, ctx) {
                                    (ctx) => {
         console.log('query 1');
         ctx.reply('Cosa stai cercando?');
+        
         ctx.flow.wizard.next();
     },
                                    (ctx) => {
@@ -119,11 +120,15 @@ function searchAds(bot, ctx) {
             Markup.callbackButton('Eventi', 'eventi')
         ]).extra()
                  );
+        
         ctx.flow.wizard.next();
     },
                                           (ctx) => {
-        console.log('category 2');        
-        category = ctx.update.callback_query.data;
+        console.log('category 2');
+        if (!ctx.update.callback_query) {
+            return ctx.reply('Premi uno dei pulsanti.');
+        }
+        category = (ctx.update.callback_query.data == 'tutto') ? '' : ctx.update.callback_query.data;
         console.log('Categoria: ' + category);
         ctx.reply('Hai scelto la categoria ' + category);
         
@@ -141,22 +146,36 @@ function searchAds(bot, ctx) {
             Markup.callbackButton('Gratis', 'gratis')
         ]).extra()
                  );
+        
         ctx.flow.wizard.next();
     },
                                           (ctx) => {
         console.log('maxPrice 2');
+        if (!ctx.update.callback_query) {
+            return ctx.reply('Premi uno dei pulsanti.');
+        }
         const maxPriceChoice = ctx.update.callback_query.data;
         console.log('Scelta: ' + maxPriceChoice);
         
         if (maxPriceChoice == 'max') {
             ctx.reply('Scegli il prezzo massimo.');
             ctx.flow.wizard.next();
-        } else {
+        } else if (maxPriceChoice == 'tutto') {
+            lessThan = '';
             ctx.flow.enter('search');
+        } else if (maxPriceChoice == 'gratis') {
+            lessThan = 0.01;
+            ctx.flow.enter('search');
+        } else {
+            return ctx.reply('Scegli una delle opzioni.');
         }
     },
                                           (ctx) => {
         console.log('maxPrice 3');
+        if (!ctx.message) {
+            return ctx.reply('Non ho capito.');
+        }
+        
         lessThan = parseFloat(ctx.message.text);
         
         if (isNaN(lessThan)) {
@@ -166,6 +185,7 @@ function searchAds(bot, ctx) {
         }
         
         console.log('Prezzo massimo: ' + lessThan);
+        
         ctx.flow.enter('search');
     });
     
@@ -174,7 +194,9 @@ function searchAds(bot, ctx) {
                                           (ctx) => {
         console.log('search 1');
         const url = `${site}/ads/?q=${q}&title=${title}&category=${category}&lessThan=${lessThan}&limit=${limit}&offset=${offset}&fromLast=${fromLast}&user=${user}`;
+        console.log(url);
         getAds(bot, ctx, url);
+        
         ctx.flow.leave();
     });
     

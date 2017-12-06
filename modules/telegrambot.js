@@ -12,15 +12,6 @@ const axios = require('axios');
 const Telegraf = require('telegraf');
 const bot = new Telegraf('492970626:AAEa0HmNUlV82sPYN1LY5QRSXjay2xjVcTE');
 
-/*
-//Controllo del flusso
-const TelegrafFlow = require('telegraf-flow');
-const { miabScene } = TelegrafFlow;
-const flow = new TelegrafFlow([miab], { defaultScene: 'miab' });
-bot.use(Telegraf.session());
-bot.use(flow.middleware());
-*/
-
 //Markup bot
 const { Markup } = require('telegraf');
 
