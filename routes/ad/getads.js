@@ -76,6 +76,9 @@ router.get('/', function (req, res) {
         adsElements = ads
         adsElements = adsElements.slice(from, to)
       }
+      if (req.query.fromLast === 'true') { // reorder from last created
+        adsElements.sort(adsDateSort)
+      }
 
       var returnAds = []
       for (let i in adsElements) {
@@ -96,9 +99,6 @@ router.get('/', function (req, res) {
         }
         actualAd.images = images
         returnAds.push(actualAd)
-      }
-      if (req.query.fromLast === 'true') { // reorder from last created
-        returnAds.sort(adsDateSort)
       }
       return res.status(200).send({success: true, ads: returnAds})
     }
