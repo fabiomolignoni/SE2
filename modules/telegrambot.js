@@ -26,24 +26,20 @@ function launchbot(){
     console.log('Bot avviato');
     
     //Visualizza i comandi disponibili
-    bot.command('help', ({ reply }) => reply('/help - Visualizza i comandi disponibili\n' +
+    bot.command('help', (ctx) => ctx.reply('/help - Visualizza i comandi disponibili\n' +
                                               '/cerca - Cerca un annuncio\n' +
                                               '/continua - Cerca altri annunci simili\n' +
                                               '/contatta - Visualizza come contattare il venditore\n' +
                                               '/sito - Apri il sito web di MessageInABOT'));
     
     //Cerca un annuncio
-    bot.command('cerca', ctx => api.searchAds(bot, ctx));
+    bot.command('cerca', (ctx) => api.searchAds(bot, ctx));
     
     //Cerca un autore
-    bot.command('contatta', ctx => api.searchUsers(bot, ctx));
+    bot.command('contatta', (ctx) => api.searchUsers(bot, ctx));
     
     //Apre il sito web di MessageInABOT
-    bot.command('sito', ({ reply }) => reply('Clicca sul link per accedere al sito!\n https://fabiomolignoni.github.io/SE2/'));
-    
-    
-    //bot.use(Telegraf.session());
-    //bot.use(api.flow.middleware());
+    bot.command('sito', (ctx) => ctx.reply('Clicca sul link per accedere al sito!\n https://fabiomolignoni.github.io/SE2/'));
         
     //Mette il bot in ascolto
     bot.startPolling();

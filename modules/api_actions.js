@@ -1,6 +1,6 @@
-////////////
-// MODULI //
-////////////
+////////////////////////////////
+// MODULI E VARIABILI GLOBALI //
+////////////////////////////////
 
 //Configurazione del sito
 const config = require('../config');
@@ -18,6 +18,9 @@ const { WizardScene } = TelegrafFlow;
 //Markup del bot
 const { Markup } = require('telegraf');
 
+//Modalità debug
+var debug = true;
+
 
 
 //////////////
@@ -25,38 +28,55 @@ const { Markup } = require('telegraf');
 //////////////
 
 
+//Stampa gli stati attraversati durante la conversazione se in modalità debug
+function printStates(state) {
+  if (debug) {
+      console.log(state);
+  }
+};
+
+
 //Stampa gli annunci trovati
 function printAds(bot, ctx, ads) {
     
     var promises = [];
-        
-    ads.forEach((ad) => {
-        var promise = new Promise((resolve, reject) => {
-            console.log('Trovato "' + ad.title + '"');
+    
+    if (ads.length != 0) {
+        ads.forEach((ad) => {
+            var promise = new Promise((resolve, reject) => {
+                console.log('Trovato "' + ad.title + '"');
 
-            //Ricavo le informazioni sull'autore
-            var author = axios.get(ad.author)
-            .then ((response) => {
-                return response.data;
-            })
-            .then((author) => {
-                ctx.replyWithMarkdown('*' + ad.title + '*\n' +
-                          'Descrizione: ' + ad.desc + '\n' +
-                          'Prezzo: ' + ad.price + '\n' +
-                          'Categoria: ' + ad.category + '\n' +
-                          'Data: ' + ad.date + '\n' +
-                          'Autore: ' + author.name + ' ' + author.surname + '\n'
-                      );
-        
-                resolve();
-            })
-            .catch((err) => {
-                console.log(err);
+                //Ricavo le informazioni sull'autore
+                var author = axios.get(ad.author)
+                .then ((response) => {
+                    return response.data;
+                })
+                .then((author) => {
+                    ctx.replyWithMarkdown('*' + ad.title + '*\n' +
+                                          '_' + ad.desc + '_\n' +
+                                          '\n' +   
+                                          'Prezzo: ' + ad.price + '\n' +
+                                          'Categoria: ' + ad.category + '\n' +
+                                          'Data: ' + ad.date + '\n' +
+                                          'Autore: ' + author.name + ' ' + author.surname + '\n'
+                                         );
+                    resolve();
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
             });
-        });
 
+            promises.push(promise);
+        });
+    } else {
+        var promise = new Promise((resolve, reject) => {
+            ctx.reply('Spiacente, nessun annuncio trovato.');
+            resolve();
+        });
+        
         promises.push(promise);
-    });
+    }
         
     Promise.all(promises)
     .then(() => {
@@ -71,9 +91,7 @@ function getAds(bot, ctx, url) {
         
     axios.get(url)
     .then((response) => {
-        //console.log(response);
-        var ads = response.data.ads;
-        return ads;
+        return response.data.ads;
     })
     .then((ads) => {
         printAds(bot, ctx, ads);
@@ -104,13 +122,13 @@ function searchAds(bot, ctx) {
     //QUERY
     const queryScene = new WizardScene('query',
                                    (ctx) => {
-        console.log('query 1');
+        printStates('query 1');
         ctx.reply('Cosa stai cercando?');
         
         ctx.flow.wizard.next();
     },
                                    (ctx) => {
-        console.log('query 2');
+        printStates('query 2');
         if (!ctx.message) {
             return ctx.reply('Non ho capito.');
         }
@@ -124,21 +142,30 @@ function searchAds(bot, ctx) {
     //CATEGORIA
     const categoryScene = new WizardScene('category',
                                           (ctx) => {
-        console.log('category 1');        
+        printStates('category 1');        
         ctx.reply('Filtra per categoria.', Markup.inlineKeyboard([
+            Markup.callbackButton('Tutto', 'tutto'),
+            Markup.callbackButton('📕', 'libri'),
+            Markup.callbackButton('🗒', 'appunti'),
+            Markup.callbackButton('⚒', 'stage/lavoro'),
+            Markup.callbackButton('🎓', 'ripetizioni'),
+            Markup.callbackButton('🎪', 'eventi')
+            
+            /*
             Markup.callbackButton('Tutto', 'tutto'),
             Markup.callbackButton('Libri', 'libri'),
             Markup.callbackButton('Appunti', 'appunti'),
             Markup.callbackButton('Stage/Lavoro', 'stage/lavoro'),
             Markup.callbackButton('Ripetizioni', 'ripetizioni'),
             Markup.callbackButton('Eventi', 'eventi')
+            */
         ]).extra()
                  );
         
         ctx.flow.wizard.next();
     },
                                           (ctx) => {
-        console.log('category 2');
+        printStates('category 2');
         if (!ctx.update.callback_query) {
             return ctx.reply('Premi uno dei pulsanti.');
         }
@@ -168,7 +195,7 @@ function searchAds(bot, ctx) {
     //PREZZO MASSIMO
     const maxPriceScene = new WizardScene('maxPrice',
                                           (ctx) => {
-        console.log('maxPrice 1');        
+        printStates('maxPrice 1');        
         ctx.reply('Filtra per prezzo.', Markup.inlineKeyboard([
             Markup.callbackButton('Tutto', 'tutto'),
             Markup.callbackButton('Scegli massimo', 'max'),
@@ -179,7 +206,7 @@ function searchAds(bot, ctx) {
         ctx.flow.wizard.next();
     },
                                           (ctx) => {
-        console.log('maxPrice 2');
+        printStates('maxPrice 2');
         if (!ctx.update.callback_query) {
             return ctx.reply('Premi uno dei pulsanti.');
         }
@@ -200,7 +227,7 @@ function searchAds(bot, ctx) {
         }
     },
                                           (ctx) => {
-        console.log('maxPrice 3');
+        printStates('maxPrice 3');
         if (!ctx.message) {
             return ctx.reply('Non ho capito.');
         }
@@ -221,7 +248,7 @@ function searchAds(bot, ctx) {
     //ANNUNCI
     const searchScene = new WizardScene('search',
                                           (ctx) => {
-        console.log('search 1');
+        printStates('search 1');
         const url = `${site}/ads/?q=${q}&title=${title}&category=${category}&lessThan=${lessThan}&limit=${limit}&offset=${offset}&fromLast=${fromLast}&user=${user}`;
         console.log('Richiesta a ' + url);
         getAds(bot, ctx, url);
