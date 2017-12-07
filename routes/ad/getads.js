@@ -21,9 +21,6 @@ router.get('/', function (req, res) {
   if (req.query.category && advalid.isValidCategory(req.query.category)) { // verify the category
     query['category'] = req.query.category.toLowerCase()
   }
-  if (req.query.gratis) { // if gratis price needs to be 0
-    query['price'] = '0.00'
-  }
   if (req.query.user) {
     query['author'] = req.query.user
   }
@@ -31,7 +28,7 @@ router.get('/', function (req, res) {
     query['title'] = req.query.title
   }
   if (req.query.lessThan && !isNaN(parseFloat(req.query.lessThan))) {
-    query['price'] = {$lt: parseFloat(req.query.lessThan) + 0.01}
+    query['price'] = {$lt: parseFloat(req.query.lessThan)}
   }
   Annuncio.find(query, function (err, ads) {
     if (err) {
@@ -46,8 +43,8 @@ router.get('/', function (req, res) {
         from = parseInt(req.query.offset)
       }
       var to = ads.length
-      if (req.query.limit && !isNaN(parseInt(req.query.limit)) && from + parseInt(req.query.limit) <= ads.length) { // if to parameter is valid
-        to = from + parseInt(req.query.limit)
+      if (req.query.limit && !isNaN(parseInt(req.query.limit)) && from + parseInt(req.query.limit) + 1 <= ads.length) { // if to parameter is valid
+        to = from + parseInt(req.query.limit) + 1
       }
       var adsElements = [] // ads that will be send back
       if (req.query.q) {
@@ -68,19 +65,18 @@ router.get('/', function (req, res) {
           title: {boost: 2},
           desc: {boost: 1}
         })
-        for (index in response) {
-          if (index >= from && index <= to) { // send ad only if exists
-            var ad = ads[response[index].ref]
+        console.log(response.length)
+        for (let k = from; k < to; k++) {
+          if (typeof response[k] !== 'undefined') {
+            var ad = ads[response[k].ref]
             adsElements.push(ad)
           }
         }
       } else {
         adsElements = ads
+        adsElements = adsElements.slice(from, to)
       }
-      if (req.query.fromLast === 'true') { // reorder from last created
-        adsElements.sort(adsDateSort)
-      }
-      adsElements = adsElements.slice(from, to)
+
       var returnAds = []
       for (let i in adsElements) {
         var actualAd = {}
@@ -100,6 +96,9 @@ router.get('/', function (req, res) {
         }
         actualAd.images = images
         returnAds.push(actualAd)
+      }
+      if (req.query.fromLast === 'true') { // reorder from last created
+        returnAds.sort(adsDateSort)
       }
       return res.status(200).send({success: true, ads: returnAds})
     }

@@ -10,7 +10,7 @@ module.exports = mongoose.model('Annuncio', new Schema({
     },
     title: { type: String, required: true },
     desc: { type: String },
-    price: { type: String, required: true },
+    price: { type: Number, required: true },
     date: { type: Date, required: true },
     category: { type: String, required: true}, //Come implementare le categorie?
     images: [
