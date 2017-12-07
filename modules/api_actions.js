@@ -25,8 +25,126 @@ const { Markup } = require('telegraf');
 //////////////
 
 
+//Stampa gli annunci trovati
+function printAds(bot, ctx, ads) {
+    
+    var success = false;
+    
+    console.log(ads);
+
+    if(!ads) {
+        return ctx.reply('Errore.');
+    } else if (ads.length == 0) {
+        return ctx.reply('Spiacente, nessun annuncio trovato.');
+    }        
+
+    const i = 0; //Provvisiorio        
+    ads.forEach((ad) => {
+        console.log('Trovato ' + i + ': \'' + ad.title + '\'');
+
+        //Ricavo le informazioni sull'autore
+        var author = axios.get(ad.author)
+        .then ((response) => {
+            var author = response.data;
+            return author;
+        })
+        .then((author) => {
+            ctx.replyWithMarkdown('Annuncio ' + i + '\n' +
+                      '*' + ad.title + '*\n' +
+                      'Descrizione: ' + ad.desc + '\n' +
+                      'Prezzo: ' + ad.price + '\n' +
+                      'Categoria: ' + ad.category + '\n' +
+                      'Data: ' + ad.date + '\n' +
+                      'Autore: ' + author.name + ' ' + author.surname + '\n'
+                  );
+            success = true;
+        })
+        .catch(function (err) {
+            console.log(err);
+        });
+    });
+    
+    //success = true;
+    
+    console.log('FUNCTION: ' + success);
+    return success;
+    
+};
+
+
+
+
 //Recupera gli annunci tramite API
 function getAds(bot, ctx, url) {
+    
+    
+    axios.get(url)
+    .then((response) => {
+        //console.log(response);
+        var ads = response.data.ads;
+        return ads;
+    })
+    .then((ads) => {
+        var success = printAds(bot, ctx, ads);
+        console.log('inner: ' + success);
+        
+        return success;
+        
+        /*
+        console.log(ads);
+        
+        if(!ads) {
+            return ctx.reply('Errore.');
+        } else if (ads.length == 0) {
+            return ctx.reply('Spiacente, nessun annuncio trovato.');
+        }        
+        
+        const i = 0; //Provvisiorio        
+        return ads.forEach((ad) => {
+            console.log('Trovato ' + i + ': \'' + ad.title + '\'');
+
+            //Ricavo le informazioni sull'autore
+            var author = axios.get(ad.author)
+            .then ((response) => {
+                var author = response.data;
+                return author;
+            })
+            .then((author) => {
+                ctx.replyWithMarkdown('Annuncio ' + i + '\n' +
+                          '*' + ad.title + '*\n' +
+                          'Descrizione: ' + ad.desc + '\n' +
+                          'Prezzo: ' + ad.price + '\n' +
+                          'Categoria: ' + ad.category + '\n' +
+                          'Data: ' + ad.date + '\n' +
+                          'Autore: ' + author.name + ' ' + author.surname + '\n'
+                      );
+            })
+            .catch(function (err) {
+                console.log(err);
+            });
+        })
+    })*/
+    })
+    .then((success) => {
+        console.log(success);
+        console.log('continua');
+        ctx.reply('/continua per vedere altri annunci');
+    })
+    .catch(function (err) {
+        console.log(err);
+    });
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    /*
     //RICHIESTA ANNUNCI
     axios.get(url)
     .then(function (response) {
@@ -64,13 +182,14 @@ function getAds(bot, ctx, url) {
             });
         });
         
-    })/*
+        
+    })
     .then(function () {
         ctx.reply('/continua per vedere altri annunci');
-    })*/
+    })
     .catch(function (err) {
         console.log(err);
-    });
+    });*/
 }
 
 //Gestisce la ricerca degli annunci
