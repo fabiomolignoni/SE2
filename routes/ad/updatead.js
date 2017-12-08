@@ -28,9 +28,6 @@ var updatead = function (req, res) {
             console.log(err)
             return res.status(403).send({ success: false, log: 'Authentication error' })
           } else {
-            if (decoded.id !== req.params.id) {
-              return res.status(403).send({ success: false, log: 'You can modify only your data' })
-            }
             var changes = {} // json with changes
             if (fields) {
               if (fields.title) {
