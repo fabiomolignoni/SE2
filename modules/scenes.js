@@ -4,7 +4,7 @@
 
 
 //Operazioni API
-const api = require('./api_actions1');
+const api = require('./api_actions');
 
 //Configurazione del sito
 const config = require('../config');
@@ -17,7 +17,7 @@ const { WizardScene } = TelegrafFlow;
 const { Markup } = require('telegraf');
 
 //Modalità debug
-const debug = true;
+const debug = false;
 
 //Parametri della richiesta degli annunci
 var adReq = {
@@ -126,24 +126,36 @@ const categoryScene = new WizardScene('category',
     if (!ctx.update.callback_query) {
         return ctx.reply('Premi uno dei pulsanti.');
     }
+    
+    adReq.category = ctx.update.callback_query.data
+    var categoryName = '';
 
-    switch (ctx.update.callback_query.data) {
+    switch (adReq.category) {
         case 'tutto':
             adReq.category = '';
+            categoryName = 'Tutto';
             break;
         case 'libri':
+            categoryName = 'Libri';
+            break;
         case 'appunti':
+            categoryName = 'Appunti';
+            break;
         case 'stage/lavoro':
+            categoryName = 'Stage/Lavoro';
+            break;
         case 'ripetizioni':
+            categoryName = 'Ripetizioni';
+            break;
         case 'eventi':
-            adReq.category = ctx.update.callback_query.data;
+            categoryName = 'Eventi';
             break;
         default:
             return ctx.reply('Premi uno dei pulsanti.');
     }
 
     console.log('Categoria: ' + adReq.category);
-    ctx.reply('Hai scelto la categoria ' + adReq.category);
+    ctx.replyWithMarkdown('Hai scelto la categoria *' + categoryName + '*');
 
     ctx.flow.enter('maxPrice');
     }
@@ -205,19 +217,11 @@ const maxPriceScene = new WizardScene('maxPrice',
 //ANNUNCI
 const searchScene = new WizardScene('search',
                                       (ctx) => {
-    search1 = new Promise((resolve, reject) => {
-        printStates('search 1');
-        const url = `${adReq.site}/ads/?q=${adReq.q}&title=${adReq.title}&category=${adReq.category}&lessThan=${adReq.lessThan}&limit=${adReq.limit}&offset=${adReq.offset}&fromLast=${adReq.fromLast}&user=${adReq.user}`;
-        console.log('Richiesta a ' + url);
-        api.getAds(ctx, url);
-    });
-
-    search1.then(() => {
-        bot.command('continua', ctx.reply('Altri messaggi'));
-    })
-    .catch((err) => {
-        console.log(err);
-    });
+    printStates('search 1');
+    
+    const url = `${adReq.site}/ads/?q=${adReq.q}&title=${adReq.title}&category=${adReq.category}&lessThan=${adReq.lessThan}&limit=${adReq.limit}&offset=${adReq.offset}&fromLast=${adReq.fromLast}&user=${adReq.user}`;
+    console.log('Richiesta a ' + url);
+    api.getAds(ctx, url);
 
     ctx.flow.leave();
 });
