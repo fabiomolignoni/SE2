@@ -17,7 +17,7 @@ const { WizardScene } = TelegrafFlow;
 const { Markup } = require('telegraf');
 
 //Modalità debug
-const debug = false;
+const debug = true;
 
 //Parametri della richiesta degli annunci
 var adReq = {
@@ -80,7 +80,7 @@ const commandScene = new WizardScene('command',
             break;
         case '/sito':
             console.log('\n* Comando /sito selezionato *');
-            ctx.replyWithMarkdown('[Clicca qui](https://fabiomolignoni.github.io/SE2/) per accedere al sito!');
+            ctx.replyWithMarkdown('[Clicca qui](' + config.homepage + ') per accedere al sito!');
             ctx.flow.leave();
             break;
         default:
@@ -98,20 +98,26 @@ const queryScene = new WizardScene('query',
                                (ctx) => {
     printStates('query 1');
     
-    ctx.reply('Cosa stai cercando?');
+    var query1 = new Promise((resolve, reject) => {
+        ctx.reply('Cosa stai cercando?')
+        .then(() => resolve());
+    });
 
-    ctx.flow.wizard.next();
+    query1.then(() => ctx.flow.wizard.next());
 },
                                (ctx) => {
     printStates('query 2');
     
-    if (!ctx.message) {
-        return ctx.reply('Non ho capito.');
-    }
-    adReq.q = ctx.message.text;
-    console.log('Query: ' + adReq.q);
+    var query2 = new Promise((resolve, reject) => {
+        if (!ctx.message) {
+            return ctx.reply('Non ho capito.');
+        }
+        adReq.q = ctx.message.text;
+        console.log('Query: ' + adReq.q);
+        resolve();
+    });
 
-    ctx.flow.enter('category');
+    query2.then(() => ctx.flow.enter('category'));
 }
                                   );
 
@@ -120,56 +126,65 @@ const categoryScene = new WizardScene('category',
                                       (ctx) => {
     printStates('category 1');
     
-    ctx.reply('Filtra per categoria.', Markup.inlineKeyboard([
-        Markup.callbackButton('Tutto', 'cat_tutto'),
-        Markup.callbackButton('📕', 'libri'),
-        Markup.callbackButton('🗒', 'appunti'),
-        Markup.callbackButton('⚒', 'stage/lavoro'),
-        Markup.callbackButton('🎓', 'ripetizioni'),
-        Markup.callbackButton('🎪', 'eventi')
-    ]).extra()
-             );
+    category1 = new Promise((resolve, reject) => {    
+        ctx.reply('Filtra per categoria.', Markup.inlineKeyboard([
+            Markup.callbackButton('Tutto', 'cat_tutto'),
+            Markup.callbackButton('📕', 'libri'),
+            Markup.callbackButton('🗒', 'appunti'),
+            Markup.callbackButton('⚒', 'stage/lavoro'),
+            Markup.callbackButton('🎓', 'ripetizioni'),
+            Markup.callbackButton('🎪', 'eventi')
+        ]).extra()
+                 )
+        .then(() => resolve());
+    });
 
-    ctx.flow.wizard.next();
+    category1.then(() => ctx.flow.wizard.next());
 },
                                       (ctx) => {
     printStates('category 2');
     
-    if (!ctx.update.callback_query) {
-        return ctx.reply('Premi uno dei pulsanti.');
-    }
-    
-    adReq.category = ctx.update.callback_query.data
-    var categoryName = '';
-
-    switch (adReq.category) {
-        case 'cat_tutto':
-            adReq.category = '';
-            categoryName = 'Tutto';
-            break;
-        case 'libri':
-            categoryName = 'Libri';
-            break;
-        case 'appunti':
-            categoryName = 'Appunti';
-            break;
-        case 'stage/lavoro':
-            categoryName = 'Stage/Lavoro';
-            break;
-        case 'ripetizioni':
-            categoryName = 'Ripetizioni';
-            break;
-        case 'eventi':
-            categoryName = 'Eventi';
-            break;
-        default:
+    var category2 = new Promise((resolve, reject) => {
+        if (!ctx.update.callback_query) {
             return ctx.reply('Premi uno dei pulsanti.');
-    }
+        }
 
-    console.log('Categoria: ' + adReq.category);
-    ctx.replyWithMarkdown('Hai scelto la categoria *' + categoryName + '*');
+        adReq.category = ctx.update.callback_query.data
+        var categoryName = '';
 
-    ctx.flow.enter('maxPrice');
+        console.log('Categoria: ' + adReq.category);
+
+        switch (adReq.category) {
+            case 'cat_tutto':
+                adReq.category = '';
+                categoryName = 'Tutto';
+                break;
+            case 'libri':
+                categoryName = 'Libri';
+                break;
+            case 'appunti':
+                categoryName = 'Appunti';
+                break;
+            case 'stage/lavoro':
+                categoryName = 'Stage/Lavoro';
+                break;
+            case 'ripetizioni':
+                categoryName = 'Ripetizioni';
+                break;
+            case 'eventi':
+                categoryName = 'Eventi';
+                break;
+            default:
+                return ctx.reply('Premi uno dei pulsanti.');
+        }
+
+        ctx.replyWithMarkdown('Hai scelto la categoria *' + categoryName + '*')
+        .then(() => resolve());
+    });
+    
+    category2.then(() => {
+        ctx.flow.enter('maxPrice');
+    });    
 }
                                      );
 
@@ -178,59 +193,70 @@ const maxPriceScene = new WizardScene('maxPrice',
                                       (ctx) => {
     printStates('maxPrice 1');
     
-    ctx.reply('Filtra per prezzo.', Markup.inlineKeyboard([
-        Markup.callbackButton('Tutto', 'pr_tutto'),
-        Markup.callbackButton('Scegli massimo', 'max'),
-        Markup.callbackButton('Gratis', 'gratis')
-    ]).extra()
-             );
-
-    ctx.flow.wizard.next();
+    var maxPrice1 = new Promise((resolve, reject) => {
+        ctx.reply('Filtra per prezzo.', Markup.inlineKeyboard([
+            Markup.callbackButton('Tutto', 'pr_tutto'),
+            Markup.callbackButton('Scegli massimo', 'max'),
+            Markup.callbackButton('Gratis', 'gratis')
+        ]).extra()
+                 )
+        .then(() => resolve());
+    });
+    
+    maxPrice1.then(() => ctx.flow.wizard.next());
 },
                                       (ctx) => {
     printStates('maxPrice 2');
+        
+    var maxPrice2 = new Promise((resolve, reject) => {
+        if (!ctx.update.callback_query) {
+            return ctx.reply('Premi uno dei pulsanti.');
+        }
+        const maxPriceChoice = ctx.update.callback_query.data;
+        console.log('Scelta prezzo: ' + maxPriceChoice);
+        resolve(maxPriceChoice);
+    });
     
-    if (!ctx.update.callback_query) {
-        return ctx.reply('Premi uno dei pulsanti.');
-    }
-    const maxPriceChoice = ctx.update.callback_query.data;
-    console.log('Scelta: ' + maxPriceChoice);
-    
-    switch (maxPriceChoice) {
-        case 'max':
-            ctx.reply('Scegli il prezzo massimo.');
-            ctx.flow.wizard.next();
-            break;
-        case 'pr_tutto':
-            adReq.lessThan = '';
-            ctx.flow.enter('search');
-            break;
-        case 'gratis':
-            adReq.lessThan = 0.01;
-            ctx.flow.enter('search');
-            break;
-        default:
-            return ctx.reply('Scegli una delle opzioni.');
-    }
+    maxPrice2.then((maxPriceChoice) => {
+        switch (maxPriceChoice) {
+            case 'max':
+                ctx.reply('Scegli il prezzo massimo.');
+                ctx.flow.wizard.next();
+                break;
+            case 'pr_tutto':
+                adReq.lessThan = '';
+                ctx.flow.enter('search');
+                break;
+            case 'gratis':
+                adReq.lessThan = 0.01;
+                ctx.flow.enter('search');
+                break;
+            default:
+                return ctx.reply('Scegli una delle opzioni.');
+        }
+    });
 },
                                       (ctx) => {
     printStates('maxPrice 3');
     
-    if (!ctx.message) {
-        return ctx.reply('Non ho capito.');
-    }
+    var maxPrice3 = new Promise((resolve, reject) => {
+        if (!ctx.message) {
+            return ctx.reply('Non ho capito.');
+        }
 
-    adReq.lessThan = parseFloat(ctx.message.text);
+        adReq.lessThan = parseFloat(ctx.message.text);
 
-    if (isNaN(adReq.lessThan)) {
-        return ctx.reply('Inserisci un valore numerico.');
-    } else if (adReq.lessThan < 0) {
-        return ctx.reply('Inserisci un valore positivo.');
-    }
+        if (isNaN(adReq.lessThan)) {
+            return ctx.reply('Inserisci un valore numerico.');
+        } else if (adReq.lessThan < 0) {
+            return ctx.reply('Inserisci un valore positivo.');
+        }
 
-    console.log('Prezzo massimo: ' + adReq.lessThan);
-
-    ctx.flow.enter('search');
+        console.log('Prezzo massimo: ' + adReq.lessThan);        
+        resolve();
+    });
+    
+    maxPrice3.then(() => ctx.flow.enter('search'));
 });
 
 //ANNUNCI
@@ -238,11 +264,14 @@ const searchScene = new WizardScene('search',
                                       (ctx) => {
     printStates('search 1');
     
-    const url = `${adReq.site}/ads/?q=${adReq.q}&title=${adReq.title}&category=${adReq.category}&lessThan=${adReq.lessThan}&limit=${adReq.limit}&offset=${adReq.offset}&fromLast=${adReq.fromLast}&user=${adReq.user}`;
-    console.log('Richiesta a ' + url);
-    api.getAds(ctx, url);
-
-    ctx.flow.leave();
+    var search1 = new Promise((resolve, reject) => {
+        const url = `${adReq.site}/ads/?q=${adReq.q}&title=${adReq.title}&category=${adReq.category}&lessThan=${adReq.lessThan}&limit=${adReq.limit}&offset=${adReq.offset}&fromLast=${adReq.fromLast}&user=${adReq.user}`;
+        console.log('Richiesta a ' + url);
+        api.getAds(ctx, url);
+        resolve();
+    });
+    
+    search1.then(() => ctx.flow.leave());
 });
 
 

@@ -21,8 +21,10 @@ function printAds(ctx, ads) {
     var promises = [];
     
     if (ads.length != 0) {
-        ads.forEach((ad) => {
+        
+        ads.forEach((ad) => {                
             var promise = new Promise((resolve, reject) => {
+                
                 console.log('Trovato "' + ad.title + '"');
 
                 //Ricavo le informazioni sull'autore
@@ -33,21 +35,23 @@ function printAds(ctx, ads) {
                 .then((author) => {
                     ctx.replyWithMarkdown('*' + ad.title + '*\n' +
                                           '_' + ad.desc + '_\n' +
-                                          '\n' +   
+                                          '\n' +
                                           'Prezzo: ' + ad.price + '\n' +
                                           'Categoria: ' + ad.category + '\n' +
                                           'Data: ' + new Date(ad.date) + '\n' +
                                           'Autore: ' + author.name + ' ' + author.surname + '\n'
-                                         );
-                    resolve();
+                                         )
+                    .then(() => resolve());
                 })
                 .catch((err) => {
                     console.log(err);
                 });
+                
             });
 
             promises.push(promise);
         });
+    
     } else {
         var promise = new Promise((resolve, reject) => {
             ctx.reply('Spiacente, nessun annuncio trovato.');
@@ -87,6 +91,7 @@ function getAds(ctx, url) {
     
 };
 
+
 //Cerca l'utente richiesto
 function searchUsers(bot, ctx, user) {
     console.log('*RICERCA UTENTI*');
@@ -119,5 +124,6 @@ function searchUsers(bot, ctx, user) {
     });
     */
 }
+
 
 module.exports.getAds = getAds;
