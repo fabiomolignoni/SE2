@@ -2,9 +2,6 @@
 // MODULI //
 ////////////
 
-//Operazioni API
-const api = require('./api_actions');
-
 //Richieste HTTP
 const axios = require('axios');
 
@@ -12,8 +9,15 @@ const axios = require('axios');
 const Telegraf = require('telegraf');
 const bot = new Telegraf('492970626:AAEa0HmNUlV82sPYN1LY5QRSXjay2xjVcTE');
 
-//Markup bot
-const { Markup } = require('telegraf');
+//Scene
+const scenes = require('./scenes');
+
+//Controllo del flusso
+const TelegrafFlow = require('telegraf-flow');
+const { WizardScene } = TelegrafFlow;
+const flow = new TelegrafFlow([scenes.commandScene, scenes.queryScene, scenes.categoryScene, scenes.maxPriceScene, scenes.searchScene], { defaultScene: 'command' });
+bot.use(Telegraf.session());
+bot.use(flow.middleware());
 
 
 
@@ -25,21 +29,7 @@ const { Markup } = require('telegraf');
 function launchbot(){
     console.log('Bot avviato');
     
-    //Visualizza i comandi disponibili
-    bot.command('help', (ctx) => ctx.reply('/help - Visualizza i comandi disponibili\n' +
-                                              '/cerca - Cerca un annuncio\n' +
-                                              '/continua - Cerca altri annunci simili\n' +
-                                              '/contatta - Visualizza come contattare il venditore\n' +
-                                              '/sito - Apri il sito web di MessageInABOT'));
-    
-    //Cerca un annuncio
-    bot.command('cerca', (ctx) => api.searchAds(bot, ctx));
-    
-    //Cerca un autore
-    bot.command('contatta', (ctx) => api.searchUsers(bot, ctx));
-    
-    //Apre il sito web di MessageInABOT
-    bot.command('sito', (ctx) => ctx.reply('Clicca sul link per accedere al sito!\n https://fabiomolignoni.github.io/SE2/'));
+    bot.command((ctx) => ctx.flow.enter('command'));
         
     //Mette il bot in ascolto
     bot.startPolling();
