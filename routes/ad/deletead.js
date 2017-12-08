@@ -21,7 +21,7 @@ var deletead = function (req, res) {
             console.log(err)
             return res.status(500).send({success: false, log: 'impossible to delete ad'})
           } else {
-            return res.status(200).send({suceess: true, log: 'ad deleted'})
+            return res.status(200).send({success: true, log: 'ad deleted'})
           }
         })
       }

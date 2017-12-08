@@ -31,7 +31,7 @@ var deleteUser = function (req, res, next) {
             console.log(err)
             return res.status(500).send({success: false, log: 'impossible to delete user'})
           } else {
-            return res.status(200).send({suceess: true, log: 'user deleted'})
+            return res.status(200).send({sucess: true, log: 'user deleted'})
           }
         })
       }
