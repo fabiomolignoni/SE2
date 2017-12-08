@@ -36,7 +36,7 @@ function printAds(ctx, ads) {
                                           '\n' +   
                                           'Prezzo: ' + ad.price + '\n' +
                                           'Categoria: ' + ad.category + '\n' +
-                                          'Data: ' + ad.date + '\n' +
+                                          'Data: ' + new Date(ad.date) + '\n' +
                                           'Autore: ' + author.name + ' ' + author.surname + '\n'
                                          );
                     resolve();
@@ -56,7 +56,7 @@ function printAds(ctx, ads) {
         
         promises.push(promise);
     }
-        
+    
     Promise.all(promises)
     .then(() => {
         ctx.reply('/continua per vedere altri annunci');

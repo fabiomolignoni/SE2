@@ -50,7 +50,7 @@ const commandScene = new WizardScene('command',
     
     switch (command) {
         case '/help':
-            console.log('* Comando /help selezionato *');
+            console.log('\n* Comando /help selezionato *');
             ctx.reply('/help - Visualizza i comandi disponibili\n' +
                       '/cerca - Cerca un annuncio\n' +
                       '/continua - Cerca altri annunci simili\n' +
@@ -64,21 +64,29 @@ const commandScene = new WizardScene('command',
             break;
         case '/continua':
             console.log('\n* Comando /continua selezionato *');
-            adReq.offset += 3;
-            ctx.flow.enter('search');
+            if (adReq.q != '') {
+                adReq.offset += 3;
+                ctx.flow.enter('search');
+            } else {
+                ctx.reply('Nessuna ricerca effettuata.\n' +
+                          '/cerca per iniziare una ricerca');
+                ctx.flow.leave();
+            }            
             break;
         case '/contatta':
             console.log('\n* Comando /contatta selezionato *');
             ctx.reply('Comando WIP');
+            ctx.flow.leave();
             break;
         case '/sito':
             console.log('\n* Comando /sito selezionato *');
             ctx.replyWithMarkdown('[Clicca qui](https://fabiomolignoni.github.io/SE2/) per accedere al sito!');
+            ctx.flow.leave();
             break;
         default:
             console.log('\n* Comando non valido *');
-            ctx.reply('Comando non valido.\n' + 
-                     '/help per visualizzare i comandi');
+            ctx.reply('Comando non valido.\n' +
+                      '/help per visualizzare i comandi');
             ctx.flow.leave();
             break;
     }
@@ -89,12 +97,14 @@ const commandScene = new WizardScene('command',
 const queryScene = new WizardScene('query',
                                (ctx) => {
     printStates('query 1');
+    
     ctx.reply('Cosa stai cercando?');
 
     ctx.flow.wizard.next();
 },
                                (ctx) => {
     printStates('query 2');
+    
     if (!ctx.message) {
         return ctx.reply('Non ho capito.');
     }
@@ -109,8 +119,9 @@ const queryScene = new WizardScene('query',
 const categoryScene = new WizardScene('category',
                                       (ctx) => {
     printStates('category 1');
+    
     ctx.reply('Filtra per categoria.', Markup.inlineKeyboard([
-        Markup.callbackButton('Tutto', 'tutto'),
+        Markup.callbackButton('Tutto', 'cat_tutto'),
         Markup.callbackButton('📕', 'libri'),
         Markup.callbackButton('🗒', 'appunti'),
         Markup.callbackButton('⚒', 'stage/lavoro'),
@@ -123,6 +134,7 @@ const categoryScene = new WizardScene('category',
 },
                                       (ctx) => {
     printStates('category 2');
+    
     if (!ctx.update.callback_query) {
         return ctx.reply('Premi uno dei pulsanti.');
     }
@@ -131,7 +143,7 @@ const categoryScene = new WizardScene('category',
     var categoryName = '';
 
     switch (adReq.category) {
-        case 'tutto':
+        case 'cat_tutto':
             adReq.category = '';
             categoryName = 'Tutto';
             break;
@@ -158,15 +170,16 @@ const categoryScene = new WizardScene('category',
     ctx.replyWithMarkdown('Hai scelto la categoria *' + categoryName + '*');
 
     ctx.flow.enter('maxPrice');
-    }
+}
                                      );
 
 //PREZZO MASSIMO
 const maxPriceScene = new WizardScene('maxPrice',
                                       (ctx) => {
-    printStates('maxPrice 1');        
+    printStates('maxPrice 1');
+    
     ctx.reply('Filtra per prezzo.', Markup.inlineKeyboard([
-        Markup.callbackButton('Tutto', 'tutto'),
+        Markup.callbackButton('Tutto', 'pr_tutto'),
         Markup.callbackButton('Scegli massimo', 'max'),
         Markup.callbackButton('Gratis', 'gratis')
     ]).extra()
@@ -176,27 +189,33 @@ const maxPriceScene = new WizardScene('maxPrice',
 },
                                       (ctx) => {
     printStates('maxPrice 2');
+    
     if (!ctx.update.callback_query) {
         return ctx.reply('Premi uno dei pulsanti.');
     }
     const maxPriceChoice = ctx.update.callback_query.data;
     console.log('Scelta: ' + maxPriceChoice);
-
-    if (maxPriceChoice == 'max') {
-        ctx.reply('Scegli il prezzo massimo.');
-        ctx.flow.wizard.next();
-    } else if (maxPriceChoice == 'tutto') {
-        adReq.lessThan = '';
-        ctx.flow.enter('search');
-    } else if (maxPriceChoice == 'gratis') {
-        adReq.lessThan = 0.01;
-        ctx.flow.enter('search');
-    } else {
-        return ctx.reply('Scegli una delle opzioni.');
+    
+    switch (maxPriceChoice) {
+        case 'max':
+            ctx.reply('Scegli il prezzo massimo.');
+            ctx.flow.wizard.next();
+            break;
+        case 'pr_tutto':
+            adReq.lessThan = '';
+            ctx.flow.enter('search');
+            break;
+        case 'gratis':
+            adReq.lessThan = 0.01;
+            ctx.flow.enter('search');
+            break;
+        default:
+            return ctx.reply('Scegli una delle opzioni.');
     }
 },
                                       (ctx) => {
     printStates('maxPrice 3');
+    
     if (!ctx.message) {
         return ctx.reply('Non ho capito.');
     }
