@@ -44,7 +44,7 @@ router.get('/', function (req, res) {
       }
       var to = ads.length
       if (req.query.limit && !isNaN(parseInt(req.query.limit)) && from + parseInt(req.query.limit) + 1 <= ads.length) { // if to parameter is valid
-        to = from + parseInt(req.query.limit) + 1
+        to = from + parseInt(req.query.limit)
       }
       var adsElements = [] // ads that will be send back
       if (req.query.q) {
@@ -66,7 +66,7 @@ router.get('/', function (req, res) {
           desc: {boost: 1}
         })
         console.log(response.length)
-        for (let k = from; k < to; k++) {
+        for (let k in response) {
           if (typeof response[k] !== 'undefined') {
             var ad = ads[response[k].ref]
             adsElements.push(ad)
@@ -74,12 +74,11 @@ router.get('/', function (req, res) {
         }
       } else {
         adsElements = ads
-        adsElements = adsElements.slice(from, to)
       }
       if (req.query.fromLast === 'true') { // reorder from last created
         adsElements.sort(adsDateSort)
       }
-
+      adsElements = adsElements.slice(from, to)
       var returnAds = []
       for (let i in adsElements) {
         var actualAd = {}
