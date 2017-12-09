@@ -54,7 +54,6 @@ const commandScene = new WizardScene('command',
             ctx.reply('/help - Visualizza i comandi disponibili\n' +
                       '/cerca - Cerca un annuncio\n' +
                       '/continua - Cerca altri annunci simili\n' +
-                      '/contatta - Visualizza come contattare il venditore\n' +
                       '/sito - Apri il sito web di MessageInABOT');
             break;
         case '/cerca':
@@ -72,11 +71,6 @@ const commandScene = new WizardScene('command',
                           '/cerca per iniziare una ricerca');
                 ctx.flow.leave();
             }            
-            break;
-        case '/contatta':
-            console.log('\n* Comando /contatta selezionato *');
-            ctx.reply('Comando WIP');
-            ctx.flow.leave();
             break;
         case '/sito':
             console.log('\n* Comando /sito selezionato *');
@@ -100,10 +94,10 @@ const queryScene = new WizardScene('query',
     
     var query1 = new Promise((resolve, reject) => {
         ctx.reply('Cosa stai cercando?')
-        .then(() => resolve());
+        .then(() => resolve()).catch((err) => console.log(err));
     });
 
-    query1.then(() => ctx.flow.wizard.next());
+    query1.then(() => ctx.flow.wizard.next()).catch((err) => console.log(err));
 },
                                (ctx) => {
     printStates('query 2');
@@ -117,7 +111,7 @@ const queryScene = new WizardScene('query',
         resolve();
     });
 
-    query2.then(() => ctx.flow.enter('category'));
+    query2.then(() => ctx.flow.enter('category')).catch((err) => console.log(err));
 }
                                   );
 
@@ -136,10 +130,10 @@ const categoryScene = new WizardScene('category',
             Markup.callbackButton('🎪', 'eventi')
         ]).extra()
                  )
-        .then(() => resolve());
+        .then(() => resolve()).catch((err) => console.log(err));
     });
 
-    category1.then(() => ctx.flow.wizard.next());
+    category1.then(() => ctx.flow.wizard.next()).catch((err) => console.log(err));
 },
                                       (ctx) => {
     printStates('category 2');
@@ -179,12 +173,10 @@ const categoryScene = new WizardScene('category',
         }
 
         ctx.replyWithMarkdown('Hai scelto la categoria *' + categoryName + '*')
-        .then(() => resolve());
+        .then(() => resolve()).catch((err) => console.log(err));
     });
     
-    category2.then(() => {
-        ctx.flow.enter('maxPrice');
-    });    
+    category2.then(() => ctx.flow.enter('maxPrice')).catch((err) => console.log(err));    
 }
                                      );
 
@@ -200,10 +192,10 @@ const maxPriceScene = new WizardScene('maxPrice',
             Markup.callbackButton('Gratis', 'gratis')
         ]).extra()
                  )
-        .then(() => resolve());
+        .then(() => resolve()).catch((err) => console.log(err));
     });
     
-    maxPrice1.then(() => ctx.flow.wizard.next());
+    maxPrice1.then(() => ctx.flow.wizard.next()).catch((err) => console.log(err));
 },
                                       (ctx) => {
     printStates('maxPrice 2');
@@ -234,7 +226,7 @@ const maxPriceScene = new WizardScene('maxPrice',
             default:
                 return ctx.reply('Scegli una delle opzioni.');
         }
-    });
+    }).catch((err) => console.log(err));
 },
                                       (ctx) => {
     printStates('maxPrice 3');
@@ -256,7 +248,7 @@ const maxPriceScene = new WizardScene('maxPrice',
         resolve();
     });
     
-    maxPrice3.then(() => ctx.flow.enter('search'));
+    maxPrice3.then(() => ctx.flow.enter('search')).catch((err) => console.log(err));
 });
 
 //ANNUNCI
@@ -267,11 +259,43 @@ const searchScene = new WizardScene('search',
     var search1 = new Promise((resolve, reject) => {
         const url = `${adReq.site}/ads/?q=${adReq.q}&title=${adReq.title}&category=${adReq.category}&lessThan=${adReq.lessThan}&limit=${adReq.limit}&offset=${adReq.offset}&fromLast=${adReq.fromLast}&user=${adReq.user}`;
         console.log('Richiesta a ' + url);
-        api.getAds(ctx, url);
-        resolve();
+        api.getAds(ctx, url)
+        .then(() => resolve()).catch((err) => console.log(err));
     });
     
-    search1.then(() => ctx.flow.leave());
+    search1.then(() => ctx.flow.enter('author')).catch((err) => console.log(err));
+});
+
+
+const authorScene = new WizardScene('author',
+                                    (ctx) => {
+    printStates('author 1');
+    
+    var author1 = new Promise((resolve, reject) => {
+        ctx.reply('Contatta il venditore premendo l\'apposito pulsante.')
+        .then(() => resolve());
+    });
+    
+    author1.then(() => ctx.flow.wizard.next()).catch((err) => console.log(err));
+},
+                                    (ctx) => {
+    printStates('author 2');
+    
+    var author2 = new Promise((resolve, reject) => {
+        if (ctx.update.callback_query) {
+            const author = ctx.update.callback_query.data;
+            console.log('Autore: ' + author);
+            const url = `${config.site}/users/${author}`;
+            api.getUser(ctx, url)
+            .then(() => resolve());
+        } else if (ctx.message && ctx.message.text.startsWith('/')) {
+            ctx.flow.enter('command');
+        } else {
+            return ctx.reply('Non ho capito.');
+        }
+    });
+    
+    author2.then(() => ctx.flow.leave()).catch((err) => console.log(err));
 });
 
 
@@ -289,9 +313,4 @@ function printStates(state) {
 };
 
 
-
-module.exports.commandScene = commandScene;
-module.exports.queryScene = queryScene;
-module.exports.categoryScene = categoryScene;
-module.exports.maxPriceScene = maxPriceScene;
-module.exports.searchScene = searchScene;
+module.exports.scenes = [commandScene, queryScene, categoryScene, maxPriceScene, searchScene, authorScene];

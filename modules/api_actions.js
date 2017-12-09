@@ -18,112 +18,100 @@ const { Markup } = require('telegraf');
 //Stampa gli annunci trovati
 function printAds(ctx, ads) {
     
-    var promises = [];
+    return new Promise((resolve, reject) => {        
+        var promises = [];
     
-    if (ads.length != 0) {
-        
-        ads.forEach((ad) => {                
-            var promise = new Promise((resolve, reject) => {
-                
-                console.log('Trovato "' + ad.title + '"');
+        if (ads.length != 0) {
 
-                //Ricavo le informazioni sull'autore
-                var author = axios.get(ad.author)
-                .then ((response) => {
-                    return response.data;
-                })
-                .then((author) => {
-                    ctx.replyWithMarkdown('*' + ad.title + '*\n' +
-                                          '_' + ad.desc + '_\n' +
-                                          '\n' +
-                                          'Prezzo: ' + ad.price + '\n' +
-                                          'Categoria: ' + ad.category + '\n' +
-                                          'Data: ' + new Date(ad.date) + '\n' +
-                                          'Autore: ' + author.name + ' ' + author.surname + '\n'
-                                         )
-                    .then(() => resolve());
-                })
-                .catch((err) => {
-                    console.log(err);
+            ads.forEach((ad) => {                
+                var promise = new Promise((resolve, reject) => {
+
+                    console.log('Trovato "' + ad.title + '"');
+
+                    //Ricavo le informazioni sull'autore
+                    var author = axios.get(ad.author)
+                    .then ((response) => {
+                        return response.data;
+                    })
+                    .then((author) => {
+                        ctx.replyWithMarkdown('*' + ad.title + '*\n' +
+                                              '_' + ad.desc + '_\n' +
+                                              '\n' +
+                                              'Prezzo: ' + ad.price + '\n' +
+                                              'Categoria: ' + ad.category + '\n' +
+                                              'Data: ' + new Date(ad.date) + '\n',
+                                              Markup.inlineKeyboard([Markup.callbackButton('Contatta ' + author.name + ' ' + author.surname, author.id)]).extra()
+                                             )
+                        .then(() => resolve());
+                    }).catch((err) => console.log(err));
+
                 });
-                
+
+                promises.push(promise);
+            });
+
+        } else {
+            var promise = new Promise((resolve, reject) => {
+                ctx.reply('Spiacente, nessun annuncio trovato.');
+                reject();
             });
 
             promises.push(promise);
-        });
-    
-    } else {
-        var promise = new Promise((resolve, reject) => {
-            ctx.reply('Spiacente, nessun annuncio trovato.');
-            reject();
-        });
-        
-        promises.push(promise);
-    }
-    
-    Promise.all(promises)
-    .then(() => {
-        ctx.reply('/continua per vedere altri annunci');
-    },
-          () => {
-        ctx.reply('/cerca per provare con altri criteri');
-    })
-    .catch((err) => {
-        console.log(err);
+        }
+
+        Promise.all(promises)
+        .then(() => ctx.reply('/continua per vedere altri annunci'),
+              () => ctx.reply('/cerca per provare con altri criteri'))
+        .then(() => resolve())
+        .catch((err) => console.log(err));        
     });
-    
+        
 };
 
 
 //Recupera gli annunci tramite API
 function getAds(ctx, url) {
         
-    axios.get(url)
-    .then((response) => {
-        return response.data.ads;
-    })
-    .then((ads) => {
-        printAds(ctx, ads);
-    })
-    .catch((err) => {
-        console.log(err);
-    });
+    return new Promise((resolve, reject) => {
+        //RICHIESTA ANNUNCI
+        axios.get(url)
+        .then((response) => {
+            return response.data.ads;
+        })
+        .then((ads) => {
+            printAds(ctx, ads)
+            .then(() => resolve());
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+    });    
     
 };
 
 
 //Cerca l'utente richiesto
-function searchUsers(bot, ctx, user) {
-    console.log('*RICERCA UTENTI*');
+function getUser(ctx, url) {    
     
-    console.log('WIP');
-    ctx.reply('WIP');
-    
-    /*
-    var site = config.site;
-    //var user = ctx.user;
-    var user = '5a16ffc34adab400040f1d39'; //Esempio per debug
-    
-    if (!user) {
-        ctx.reply('Seleziona l\'annuncio per ottenere le informazioni sull\'autore.');
-    }
-    
-    //RICHIESTA UTENTI
-    axios.get(`${site}/users/${user}`)
-    .then(function (response) {
-        var info = response.data;
+    return new Promise((resolve, reject) => {
+        //RICHIESTA UTENTI
+        axios.get(url)
+        .then(function (response) {
+            var info = response.data;
 
-        ctx.reply('Nome: ' + info.name + '\n' +
-                  'Cognome: ' + info.surname + '\n' +
-                  'E-mail: ' + info.email + '\n' +
-                  (info.phone ? ('Telefono: ' + info.phone + '\n') : '')
-                  );
+            ctx.replyWithMarkdown('*' + info.name + ' ' + info.surname + '*\n' +
+                                  '✉️ ' + info.email + '\n' +
+                                  (info.phone ? ('☎️ ' + info.phone + '\n') : '')
+                                 )
+            .then(() => resolve()).catch((err) => console.log(err));
+        })
+        .catch(function (err) {
+            console.log(err);
+        });
     })
-    .catch(function (err) {
-        console.log(err);
-    });
-    */
+    
 }
 
 
 module.exports.getAds = getAds;
+module.exports.getUser = getUser;

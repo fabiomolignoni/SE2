@@ -15,7 +15,7 @@ const scenes = require('./scenes');
 //Controllo del flusso
 const TelegrafFlow = require('telegraf-flow');
 const { WizardScene } = TelegrafFlow;
-const flow = new TelegrafFlow([scenes.commandScene, scenes.queryScene, scenes.categoryScene, scenes.maxPriceScene, scenes.searchScene], { defaultScene: 'command' });
+const flow = new TelegrafFlow(scenes.scenes, { defaultScene: 'command' });
 bot.use(Telegraf.session());
 bot.use(flow.middleware());
 
