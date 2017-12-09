@@ -34,7 +34,7 @@ function printAds(ctx, ads) {
                         return response.data;
                     })
                     .then((author) => {
-                        ctx.replyWithMarkdown('*' + ad.title + '*\n' +
+                        ctx.replyWithMarkdown('📌 *' + ad.title + '*\n' +
                                               '_' + ad.desc + '_\n' +
                                               '\n' +
                                               'Prezzo: ' + ad.price + '\n' +
@@ -52,7 +52,6 @@ function printAds(ctx, ads) {
 
         } else {
             var promise = new Promise((resolve, reject) => {
-                ctx.reply('Spiacente, nessun annuncio trovato.');
                 reject();
             });
 
@@ -61,7 +60,7 @@ function printAds(ctx, ads) {
 
         Promise.all(promises)
         .then(() => ctx.reply('/continua per vedere altri annunci'),
-              () => ctx.reply('/cerca per provare con altri criteri'))
+              () => ctx.reply('Spiacente, nessun annuncio trovato.'))
         .then(() => resolve())
         .catch((err) => console.log(err));        
     });

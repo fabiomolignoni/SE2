@@ -103,7 +103,7 @@ const queryScene = new WizardScene('query',
     printStates('query 2');
     
     var query2 = new Promise((resolve, reject) => {
-        if (!ctx.message) {
+        if (!ctx.message || ctx.message.text.startsWith('/')) {
             return ctx.reply('Non ho capito.');
         }
         adReq.q = ctx.message.text;
@@ -272,7 +272,7 @@ const authorScene = new WizardScene('author',
     printStates('author 1');
     
     var author1 = new Promise((resolve, reject) => {
-        ctx.reply('Contatta il venditore premendo l\'apposito pulsante.')
+        ctx.reply('/cerca per provare con altri criteri')
         .then(() => resolve());
     });
     
@@ -282,7 +282,7 @@ const authorScene = new WizardScene('author',
     printStates('author 2');
     
     var author2 = new Promise((resolve, reject) => {
-        if (ctx.update.callback_query) {
+        if (ctx.update.callback_query && ctx.update.callback_query.message.text.startsWith('📌')) {
             const author = ctx.update.callback_query.data;
             console.log('Autore: ' + author);
             const url = `${config.site}/users/${author}`;
