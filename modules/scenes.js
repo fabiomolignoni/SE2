@@ -55,6 +55,7 @@ const commandScene = new WizardScene('command',
                       '/cerca - Cerca un annuncio\n' +
                       '/continua - Cerca altri annunci simili\n' +
                       '/sito - Apri il sito web di MessageInABOT');
+            ctx.flow.leave();
             break;
         case '/cerca':
             console.log('\n* Comando /cerca selezionato *');
@@ -79,6 +80,7 @@ const commandScene = new WizardScene('command',
             break;
         default:
             console.log('\n* Comando non valido *');
+            //console.log(ctx.message);
             ctx.reply('Comando non valido.\n' +
                       '/help per visualizzare i comandi');
             ctx.flow.leave();
@@ -103,7 +105,7 @@ const queryScene = new WizardScene('query',
     printStates('query 2');
     
     var query2 = new Promise((resolve, reject) => {
-        if (!ctx.message || ctx.message.text.startsWith('/')) {
+        if (!ctx.message.text || ctx.message.text.startsWith('/')) {
             return ctx.reply('Non ho capito.');
         }
         adReq.q = ctx.message.text;
@@ -288,7 +290,7 @@ const authorScene = new WizardScene('author',
             const url = `${config.site}/users/${author}`;
             api.getUser(ctx, url)
             .then(() => resolve());
-        } else if (ctx.message && ctx.message.text.startsWith('/')) {
+        } else if (ctx.message.text && ctx.message.text.startsWith('/')) {
             ctx.flow.enter('command');
         } else {
             return ctx.reply('Non ho capito.');
