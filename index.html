@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>MessageInABOT</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css">
+      
+        <link href="Css/Css_Aggiuntivo.css" rel="stylesheet" type="text/css"/>
+        <link href="Css/style.css" rel="stylesheet" type="text/css"/>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+       
+        <script> $(function(){ $("#header_not_registered").load("Header_Not_Reg.html"); $("#header_registered").load("Header_Reg.html"); $("#footer").load("Footer.html"); }); </script>
+    </head> 
+    <body><script>
+        
+  
+        
+        function getCookie(name)
+ {
+   var re = new RegExp(name + "=([^;]+)");
+   var value = re.exec(document.cookie);
+   return (value != null) ? unescape(value[1]) : null;
+ };
+ 
+ 
+  
+  function doLogout(){
+    deleteCookie('token');
+  };
+  
+  
+  
+  //Carica gli header a seconda della situazione
+
+        $(document).ready(function(){
+    document.getElementById("header_not_registered").style.display = 'none';
+    document.getElementById("header_registered").style.display = 'none';
+    $.get("https://messageinabot.herokuapp.com/users?token="+getCookie('token'),{},function(data){
+      if(!data.success){
+
+        document.getElementById("header_not_registered").style.display = 'block';
+      }
+      else{
+        
+        document.getElementById("header_registered").style.display = 'block';
+        document.getElementById("nome").innerHTML = "Benvenuto" + " " + data.name;
+          document.getElementById("img_profilo").src = data.image;
+      }
+    });
+   
+      $.get("https://messageinabot.herokuapp.com/ads/",{},function(data){
+      if(data.success){
+          var lung = data.ads.length;
+          var url = new Array();
+          for(i = 0; i<4;i++){
+           document.getElementById("ads_img"+i).src = data.ads[lung-1].images[0];
+           document.getElementById("ads_title"+i).innerHTML = data.ads[lung-1].title;
+           document.getElementById("ads_desc"+i).innerHTML = data.ads[lung-1].desc;
+           
+         
+           var tmp = document.getElementById("ads_id"+i);
+           tmp.value = "Annuncio.html?id="+ data.ads[lung-1].id;
+           url[i] = tmp.value;
+           
+document.getElementById("ads_id"+i).setAttribute("href",url[i]);
+lung--;
+            }
+       
+      }
+      else{
+      
+      }
+    });
+   
+  }); 
+  
+  
+        </script>
+        
+        <div id="header_not_registered"></div>
+        <div id="header_registered"></div>
+        
+            <div class="container  background-full-site">
+                
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                
+                <div class="justify-content-center">
+                        <div class="row">
+                      
+                        <!-- Da fare la funzione di ricerca -->
+                       <form class="barra-ricerca" action="FUNZIONE_DA_FARE" method="get">
+                                                  
+                           <select class="form-control col-md-2 col-sm-1" id="inline" name="filtro">
+                                    
+                                    <option selected value='libri'>Libri</option>
+                                    <option value='appunti'>Appunti</option>
+                                    <option value='stage/Lavoro'>Stage/Lavoro</option>   
+                                    <option value='ripetizione'>Ripetizione</option>                                    
+                                    <option value='eventi'>Eventi</option>
+                                </select>
+                              
+                            <!-- search box -->
+                      <input class="form-control navbar-light pannello-ricerca col-md-8 col-sm-6"  id="inline" type="text" name="query">
+                            <button type="submit" class="btn btn-success col-md-1 col-xs-1">
+                                <span class="glyphicon glyphicon-search font_sito_bottoni">Ricerca</span>
+                                
+                            </button>
+                          
+                        </form>
+                        </div>
+                    </div>
+                
+                <div class="margine_articoli  ">
+                
+                    
+                    <div class="card-deck">
+  <div class="card">
+      <img class="card-img-top" id="ads_img0"  alt="Card image cap">
+     
+    <div class="card-body">
+        <h4 class="card-title" id="ads_title0"></h4>
+      <p class="card-text" id="ads_desc0"></p>
+      <a id="ads_id0"  class="btn btn-success">Vai all'annuncio</a>
+    </div>
+   
+  </div>
+                        
+  <div class="card">
+      <img class="card-img-top" id="ads_img1"  alt="Card image cap">
+    <div class="card-body">
+        <h4 class="card-title" id="ads_title1"></h4>
+      <p class="card-text" id="ads_desc1"></p>
+     <a id="ads_id1" href="ads_id1" onclick="asd_id0" class="btn btn-success">Vai all'annuncio</a>
+    </div>
+   
+  </div>
+  <div class="card">
+      <img class="card-img-top" id="ads_img2"  alt="Card image cap">
+    <div class="card-body">
+        <h4 class="card-title" id="ads_title2"></h4>
+      <p class="card-text" id="ads_desc2"></p>
+    <a id="ads_id2" href="ads_id2" onclick="asd_id0" class="btn btn-success">Vai all'annuncio</a>
+    </div>
+   
+  </div>
+                        
+        <div class="card">
+      <img class="card-img-top" id="ads_img3"  alt="Card image cap">
+    <div class="card-body">
+        <h4 class="card-title" id="ads_title3"></h4>
+      <p class="card-text" id="ads_desc3"></p>
+     <a id="ads_id3" href="ads_id3" onclick="asd_id0" class="btn btn-success">Vai all'annuncio</a>
+    </div>
+   
+  </div>
+                        
+                        
+</div>
+                    
+                    
+              
+            </div>
+                
+                
+            </div>
+      
+        <div id="footer" class="margine_articoli"></div></body>
+    
+</html>
