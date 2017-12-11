@@ -45,11 +45,10 @@ function controllo_form(){
    document.modulo.password.focus();
    return false;
     }
+    
+    return true;
 }
 
-function doRedirect() {
-    
-    location.href = "..\index.html";
-  }
+
   
   
