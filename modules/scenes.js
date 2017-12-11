@@ -49,6 +49,11 @@ const commandScene = new WizardScene('command',
     var command = ctx.message.text;
     
     switch (command) {
+        case '/start':
+            ctx.replyWithMarkdown('Benvenuto in *MessageInABOT*!\n' +
+                        '/help per visualizzare i comandi');
+            ctx.flow.leave();
+            break;
         case '/help':
             console.log('\n* Comando /help selezionato *');
             ctx.reply('/help - Visualizza i comandi disponibili\n' +
