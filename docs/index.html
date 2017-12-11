@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>MessageInABOT</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css">
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"></script>
+        <link href="Css/Css_Aggiuntivo.css" rel="stylesheet" type="text/css"/>
+        <link href="Css/style.css" rel="stylesheet" type="text/css"/>
+        
+        <script> 
+            $(function(){ 
+                $("#header_not_registered").load("Header_Not_Reg.html"); 
+                $("#header_registered").load("Header_Reg.html"); 
+                $("#footer").load("Footer.html"); }); 
+        </script>
+    </head> 
+    <body><div id="header_not_registered"></div>
+        <div id="header_registered"></div>        
+        <div class="container  background-full-site">            
+            <br>
+            <br>
+            <div class="row">
+                <div class="col-md-2"></div>
+                <div class="col-md-8">
+                    <center>
+                        <img src='https://i.imgur.com/XjoERkn.png'>               
+                        <p class="spiegazione"> <br> <br>
+                            Trovare annunci non è mai stato così semplice! Cerca ciò che desideri ed entra rapidamente in contatto con il creatore dell'inserzione.<br>
+                            Non hai tempo per consultare tranquillamente il sito? Fatti aiutare dal nostro <a class="normal-link" href='https://t.me/SE2_MessageInABOT'>bot di Telegram.</a><br>
+                            Per visualizzare correttamente il sito è necessario disabilitare AdBlock.
+                        </p>
+                    </center>
+                </div>
+            </div>
+            <br><br>
+            <label class="  scritta_utente_form">Ultimi annunci</label> 
+            <div class="row">
+                <center>
+                    <div class="card-deck">
+                        <div class="card" id="card_0">                            
+                            <div class="conta">  <img class="card-img-top" id="ads_img0"></div>                            
+                            <div class="card-body">
+                                <h4 class="card-title" id="ads_title0"></h4>
+                                <h6 class="card-text">Categoria: <span id="ads_category0"></span></h6>
+                                <h6 class="card-text">Data: <span id="ads_date0"></span></h6>
+                                <p class="card-text" id="ads_desc0"></p>
+                                <a id="ads_id0"  class="btn btn-success">Vai all'annuncio</a>
+                            </div>
+                            
+                        </div>
+                        
+                        <div class="card" id="card_1">
+                            <div class="conta">  <img class="card-img-top" id="ads_img1"></div>
+                            <div class="card-body">
+                                <h4 class="card-title" id="ads_title1"></h4>
+                                <h6 class="card-text">Categoria: <span id="ads_category1"></span></h6>
+                                <h6 class="card-text">Data: <span id="ads_date1"></span></h6>
+                                <p class="card-text" id="ads_desc1"></p>
+                                <a id="ads_id1"   class="btn btn-success">Vai all'annuncio</a>
+                            </div>
+                            
+                        </div>
+                        <div class="card" id="card_2">
+                            <div class="conta">  <img class="card-img-top" id="ads_img2"></div>
+                            <div class="card-body">
+                                <h4 class="card-title" id="ads_title2"></h4>
+                                <h6 class="card-text">Categoria: <span id="ads_category2"></span></h6>
+                                <h6 class="card-text">Data: <span id="ads_date2"></span></h6>
+                                <p class="card-text" id="ads_desc2"></p>
+                                <a id="ads_id2"   class="btn btn-success">Vai all'annuncio</a>
+                            </div>
+                        </div>
+                        
+                        <div class="card" id="card_3">
+                            <div class="conta">  <img class="card-img-top" id="ads_img3"></div>
+                            <div class="card-body">
+                                <h4 class="card-title" id="ads_title3"></h4>
+                                <h6 class="card-text">Categoria: <span id="ads_category3"></span></h6>
+                                <h6 class="card-text">Data: <span id="ads_date3"></span></h6>
+                                <p class="card-text" id="ads_desc3"></p>
+                                <a id="ads_id3"   class="btn btn-success">Vai all'annuncio</a>
+                            </div>
+                        </div>
+                    </div> 
+                </center>
+            </div>
+            <div class="row">
+                <div class="col-md-6 col-centered">
+                    <div class="row margine_articoli_piccoli justify-content-center" aria-label="Page navigation example">
+                        <ul class="pagination col-centered" id="choose-page">
+                            <li class="page-item"><a class="page-link" id="prima" href="javascript:setAdsPage()">Previous</a></li>
+                            <li class="page-item"><a class="page-link" id="dopo" href="javascript:setAdsPage()">Next</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="footer" class="margine_articoli"></div>
+        <script src="Javascript/index.js" type="text/javascript"></script>
+    </body>
+    
+</html>

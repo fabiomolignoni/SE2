@@ -1,0 +1,204 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 21-ago-2017, 9.49.33
+    Author     : Fabio Molignoni
+*/
+.barra-ricerca{       
+    padding: 5px 0; 
+    width: 100%;
+    display:inline;
+}
+
+@media (max-width: 1100px) { 
+    #ricerca1{
+        width:85%
+    }
+}
+@media (max-width: 576px) { 
+    #ricerca1{
+        width:100%
+    }
+}
+
+#navbar-header {
+    background-color: #15224f;
+    color: #FFFFFF;
+}
+
+.riganav {
+    padding-bottom: 10px;
+    padding-top: 10px;
+}
+
+.titolo{
+    margin:0px;
+    font-size: 30px;
+    vertical-align: middle;
+}
+
+.pannello-ricerca {   
+    font-size: 15px;
+    color: black;    
+    border: 1px solid white;
+}
+
+.pulsante-ricerca {  
+    margin-top:5px;
+    background-color: #FAD165;
+    border: 1px solid #FAD165;
+    border-radius: 0 2px 2px 0;
+    color: #565656; 
+    padding-top:9px;
+    padding-bottom:9px;
+    width:8%;
+}
+
+.button-filtro {        
+    margin-top:5px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .23), inset 1px 1px 0 0 hsla(0, 0%, 100%, .2);
+    padding: 10px 0!important;
+    text-align: center;
+    height: 39px;    
+    display: inline-block;
+    color: #000000;
+    text-decoration: none;
+    outline: none;    
+    border:0px;
+    outline:0px;   
+    margin-top:5px;
+    background-color: #FFFFFF;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .23), inset 1px 1px 0 0 hsla(0, 0%, 100%, .2);
+    padding: 10px 0!important;
+    text-align: center;
+    height: 39px;    
+    display: inline-block;
+    color: #000000;
+    text-decoration: none;
+    outline: none;    
+    border:0px;
+    outline:0px;
+    border-radius: 0;
+    margin-left:20px;
+    width:90%; 
+    background-color: #f2f2f2;  
+}
+.button-filtro:hover{
+    background-color: #e6e6e6;
+}
+option{
+    background-color: white;
+}
+.text-white{
+    color: white;
+}
+
+@media (max-width: 768px) {
+    .footer-text, .nome-sito {
+        text-align: center;
+    } 
+}
+
+.dropdown-header{
+    padding: 10px 0;
+    box-shadow:none;    
+    display:inline-block;
+}
+.footer-text a:hover {
+    color: white;
+}
+
+.bg-dark{
+    background-color: #333;
+}
+
+.bg-white{
+    background-color: white;
+}
+
+body{
+    background-color: #EFEFEF;
+}
+.bg-gray{
+    background-color: #EFEFEF;
+}
+.rounded-div{
+    border-color:#bfbfbf;
+    border-width: 1px; /* this allows you to adjust the thickness */
+    border-style: solid
+}
+
+
+
+.circle-image{    
+    border-radius:50%;
+    /* make it responsive */
+    display:block;
+    /* div height to be the same as width*/
+    padding-top:50%;
+    width: 50%;
+    height: auto;
+    /* make it a circle */
+    
+    /* Centering on image`s center*/
+    background-position-y: center;
+    background-position-x: center;
+    background-repeat: no-repeat;
+    /* it makes the clue thing, takes smaller dimension to fill div */
+}
+
+.number-item{
+    background-color: #219FD1;
+    color: white; 
+    width: 20px;
+    height: 20px;
+    display: block;
+}
+
+.menu-icon{
+    color: white;
+}
+.menu-icon::focus {
+    outline: none;
+}
+
+.custom-icon{
+    height: 1em; 
+    width: 1em;
+    color:white;
+}
+
+.nopadding {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
+.img-center {
+    margin: 0 auto;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.row-no-padding {
+    [class*="col-"] {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+}
+
+
+.limit{
+    width: 300px;
+    height: 500px;
+    max-height: 500px;
+    overflow: hidden;
+}
+.limit img{
+    width: 100%;
+    height: 100%;
+}
