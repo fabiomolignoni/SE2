@@ -21,18 +21,21 @@
   },
   "homepage": "https://github.com/fabiomolignoni/SE2#readme",
   "dependencies": {
+    "axios": "^0.17.1",
     "bcrypt": "^1.0.3",
     "body-parser": "^1.18.2",
     "cors": "^2.8.4",
     "elasticlunr": "^0.9.5",
+    "events": "^1.1.1",
     "express": "^4.16.2",
     "file-system": "^2.2.2",
     "formidable": "^1.1.1",
     "jsonwebtoken": "^8.1.0",
-    "mongoose": "^4.13.2",
+    "mongoose": "^4.13.6",
     "morgan": "^1.9.0",
-    "telegraf": "^3.16.4",
-    "validator": "^9.1.1"
+    "telegraf": "^3.17.1",
+    "telegraf-flow": "^8.3.0",
+    "validator": "^9.1.2"
   },
   "devDependencies": {
     "jest": "^21.2.1"
