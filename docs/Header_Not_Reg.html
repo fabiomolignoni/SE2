@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css">
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"></script>
+        <link href="https://fonts.googleapis.com/css?family=Barlow+Semi+Condensed|Roboto+Slab" rel="stylesheet">
+        <link href="Css/style.css" rel="stylesheet" type="text/css"/>
+        <link href="Css/Css_Aggiuntivo.css" rel="stylesheet" type="text/css"/>
+    </head>
+    <body>
+        <nav class="navbar navbar-light bg-dark sticky-top">
+            <div class="col-md-2 col-sm-12 col-xs-12">
+                <center>
+                    <div class="limit">
+                        <a class="navbar-brand" href="index.html">
+                            <img src="https://i.imgur.com/A5vcTIb.png" class="logo-header" alt=""/>
+                        </a>
+                    </div>
+                </center>
+            </div>            
+            <div class="col-md-7 col-sm-12 col-xs-12">
+                <center>
+                    <div class="row">
+                        <form class="barra-ricerca" action="Ricerca.html" method="get">                                                  
+                            <select class="form-control col-md-3 col-sm-3"  id="filtro1" name="category">                                    
+                                <option value='libri'>Libri</option>
+                                <option value='appunti'>Appunti</option>
+                                <option value='stage/lavoro'>Stage/Lavoro</option>   
+                                <option value='ripetizione'>Ripetizione</option>                                    
+                                <option value='eventi'>Eventi</option>
+                                <option selected value='tutte le categorie'>Tutto</option>                                    
+                            </select>                              
+                            <!-- search box -->
+                            <input class="form-control pannello-ricerca col-md-7 col-sm-7 col-xs-12" id="query1" type="text" name="q" placeholder="Cerca il tuo annuncio...">
+                            <input type="submit" class="btn btn-success" id="ricerca1" value=Ricerca>
+                        </form>   
+                    </div>
+                </center>
+            </div>
+            <div class="col-md-3  col-xs-6">
+                <center>
+                    <button class="btn btn-success font-weight-bold"  onclick="location.href='Registrazione.html'" type="button"> <span class="font_sito_bottoni">Registrati</span> </button>
+                    <button class="btn btn-success font-weight-bold"  onclick="location.href='Login.html'" type="button"> <span class="font_sito_bottoni">Accedi</span> </button>
+                </center>
+            </div>
+        </nav>
+        <script src="Javascript/headerNonReg.js" type="text/javascript"></script>
+    </body>
+</html>
